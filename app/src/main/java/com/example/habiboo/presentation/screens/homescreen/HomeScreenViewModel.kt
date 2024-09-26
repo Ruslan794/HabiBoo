@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.habiboo.domain.model.Habit
 import com.example.habiboo.domain.model.NotificationSettings
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
@@ -19,16 +18,15 @@ class HomeScreenViewModel : ViewModel() {
         updateHabitsList()
     }
 
-    fun updateHabitsList(){
+    fun updateHabitsList() {
         viewModelScope.launch {
             // _habits.value = emptyList()
-          // delay(2000)
+            // delay(2000)
             _habits.value = habitsSample
         }
 
     }
 }
-
 
 
 val habitsSample = listOf(
