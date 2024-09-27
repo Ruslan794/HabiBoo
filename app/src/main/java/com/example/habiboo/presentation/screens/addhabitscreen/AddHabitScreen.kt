@@ -18,6 +18,7 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,13 +33,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.habiboo.presentation.navigation.NavDestination
 import java.time.LocalTime
 
 @Composable
 fun AddHabitScreen(navController: NavHostController, vm: AddHabitScreenViewModel = viewModel()) {
     val scrollState = rememberScrollState()
-    var name by remember { mutableStateOf("") }
-    var note by remember { mutableStateOf("") }
+    val nameIsEmpty by remember {
+        derivedStateOf {
+            vm.name.value.isEmpty()
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -54,12 +59,12 @@ fun AddHabitScreen(navController: NavHostController, vm: AddHabitScreenViewModel
         ) {
 
             OutlinedTextField(
-                value = name,
+                value = vm.name.value,
                 onValueChange = { newName ->
                     if (newName.isNotEmpty()) {
                         val number = newName.length
                         if (number <= 20) {
-                            name = newName
+                            vm.setName(newName)
                         }
                     }
                 },
@@ -75,8 +80,8 @@ fun AddHabitScreen(navController: NavHostController, vm: AddHabitScreenViewModel
             )
 
             OutlinedTextField(
-                value = note,
-                onValueChange = { newNote -> note = newNote },
+                value = vm.note.value,
+                onValueChange = { newNote -> vm.setNote(newNote) },
                 label = { Text("Note", fontSize = 18.sp) },
                 placeholder = { Text("Enter note for your habit", fontSize = 18.sp) },
                 modifier = Modifier
@@ -91,11 +96,15 @@ fun AddHabitScreen(navController: NavHostController, vm: AddHabitScreenViewModel
         }
 
         Button(
-            onClick = { vm.createHabit() },
+            onClick = {
+                vm.createHabit()
+                navController.navigate(NavDestination.Home.route)
+                      },
             Modifier
                 .fillMaxWidth()
                 .padding(vertical = 25.dp)
-                .align(Alignment.BottomCenter)
+                .align(Alignment.BottomCenter),
+            enabled = !nameIsEmpty
         ) {
             Text(text = "SAVE", fontSize = 18.sp)
         }
@@ -104,51 +113,43 @@ fun AddHabitScreen(navController: NavHostController, vm: AddHabitScreenViewModel
 
 @Composable
 fun CheckBoxesBlock(vm: AddHabitScreenViewModel) {
-    val notificationsEnabledChecked by vm.notificationsEnabledChecked
-    val nonDisabledNotificationsChecked by vm.nonDisabledNotificationsChecked
-    val timedNotificationsEnabledChecked by vm.timedNotificationsEnabledChecked
-    val randomNotificationsEnabledChecked by vm.randomNotificationsEnabledChecked
-    val timePeriodNotificationsEnabled by vm.timePeriodNotificationsEnabled
-    val exactTimeNotificationsEnabled by vm.exactTimeNotificationsEnabled
-
-    var textFieldText by remember { mutableStateOf("") }
 
     Column {
         SimpleCheckBox(
             title = "Enable Notifications",
-            initialValue = notificationsEnabledChecked,
+            initialValue = vm.notificationsEnabledChecked.value,
             onCheckedChange = { newValue -> vm.setNotificationsEnabledChecked(newValue) }
         )
 
         SimpleCheckBox(
             title = "Enable Non-Disabled Notifications",
-            initialValue = nonDisabledNotificationsChecked,
+            initialValue = vm.nonDisabledNotificationsChecked.value,
             onCheckedChange = { newValue -> vm.setNonDisabledNotificationsChecked(newValue) },
-            enabled = notificationsEnabledChecked
+            enabled = vm.notificationsEnabledChecked.value
         )
 
         SimpleCheckBox(
             title = "Enable Random Notifications",
-            initialValue = randomNotificationsEnabledChecked,
+            initialValue = vm.randomNotificationsEnabledChecked.value,
             onCheckedChange = { newValue -> vm.setRandomNotificationsEnabledChecked(newValue) },
-            enabled = notificationsEnabledChecked
+            enabled = vm.notificationsEnabledChecked.value
         )
 
         SimpleCheckBox(
             title = "Enable Timed Notifications",
-            initialValue = timedNotificationsEnabledChecked,
+            initialValue = vm.timedNotificationsEnabledChecked.value,
             onCheckedChange = { newValue -> vm.setTimedNotificationsEnabledChecked(newValue) },
-            enabled = notificationsEnabledChecked
+            enabled = vm.notificationsEnabledChecked.value
         )
 
-        if (timedNotificationsEnabledChecked) {
+        if (vm.timedNotificationsEnabledChecked.value) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
                 modifier = Modifier.padding(start = 20.dp)
             ) {
                 Checkbox(
-                    checked = timePeriodNotificationsEnabled,
+                    checked = vm.timePeriodNotificationsEnabled.value,
                     onCheckedChange = { vm.setTimePeriodNotificationsEnabled(it) }
                 )
                 Text(
@@ -157,16 +158,14 @@ fun CheckBoxesBlock(vm: AddHabitScreenViewModel) {
                 )
 
                 OutlinedTextField(
-                    value = textFieldText,
+                    value = vm.timePeriod.value.toString(),
                     onValueChange = { newText ->
                         val sanitizedInput = newText.filter { it.isDigit() }
                         if (sanitizedInput.isNotEmpty()) {
                             val number = sanitizedInput.toInt()
                             if (number in 1..99) {
-                                textFieldText = sanitizedInput
+                               vm.setTimePeriod(sanitizedInput.toInt())
                             }
-                        } else {
-                            textFieldText = ""
                         }
                     },
                     modifier = Modifier
@@ -187,14 +186,14 @@ fun CheckBoxesBlock(vm: AddHabitScreenViewModel) {
                 modifier = Modifier.padding(start = 20.dp)
             ) {
                 Checkbox(
-                    checked = exactTimeNotificationsEnabled,
+                    checked = vm.exactTimeNotificationsEnabled.value,
                     onCheckedChange = { vm.setExactTimeNotificationsEnabled(it) }
                 )
                 Text(
                     text = "at:",
                     fontSize = 18.sp
                 )
-                MyTimePicker()
+                MyTimePicker(vm)
             }
         }
     }
@@ -227,14 +226,17 @@ fun SimpleCheckBox(
 }
 
 @Composable
-fun MyTimePicker() {
+fun MyTimePicker(vm:AddHabitScreenViewModel) {
+
     var time by remember { mutableStateOf(LocalTime.of(0, 0)) }
     val context = LocalContext.current
 
     val timePickerDialog = TimePickerDialog(
         context,
         { _, selectedHour, selectedMinute ->
-            time = LocalTime.of(selectedHour, selectedMinute)
+            val updatedTime = LocalTime.of(selectedHour, selectedMinute)
+            time = updatedTime
+            vm.setExactNotificationTime("${updatedTime.hour}:${updatedTime.minute.toString().padStart(2, '0')}")
         },
         time.hour, time.minute, true
     )
@@ -247,7 +249,7 @@ fun MyTimePicker() {
             .padding(start = 5.dp, end = 25.dp)
     ) {
         Text(
-            text = "${time.hour}:${time.minute.toString().padStart(2, '0')}",
+            text = vm.exactNotificationTime.value ,
             fontSize = 18.sp
         )
         Button(onClick = { timePickerDialog.show() }) {
