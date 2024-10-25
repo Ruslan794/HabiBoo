@@ -1,5 +1,7 @@
 package com.example.habiboo.presentation.screens.loginscreen
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,6 +14,11 @@ import kotlinx.coroutines.launch
 
 class LoginScreenViewModel(
 ) : ViewModel() {
+
+    private val _email = mutableStateOf("")
+    val email: State<String> = _email
+    private val _password = mutableStateOf("")
+    val password: State<String> = _password
 
     // LiveData для управления состоянием загрузки
     private val _loading = MutableLiveData<Boolean>()
@@ -62,10 +69,18 @@ class LoginScreenViewModel(
            // val token = getTokenUseCase()
            // _isUserLoggedIn.value = token != null // true, если токен есть
 
-                delay(2000)
+                delay(100)
                 _isUserLoggedIn.value = false
 
         }
+    }
+
+    fun setEmail(value:String){
+        _email.value = value
+    }
+
+    fun setPassword(value:String){
+        _password.value = value
     }
 
 }
