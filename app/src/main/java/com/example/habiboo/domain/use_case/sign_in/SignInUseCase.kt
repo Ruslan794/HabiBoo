@@ -4,7 +4,7 @@ import com.example.habiboo.domain.model.User
 import com.example.habiboo.domain.repository.AuthRepository
 
 class SignInUseCase(private val authRepository: AuthRepository) {
-    fun execute(email: String, password: String): User {
+    fun execute(email: String, password: String): Result<User> {
         return authRepository.signIn(email, password)
     }
 }
