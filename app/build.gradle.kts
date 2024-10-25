@@ -1,6 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.compose.compiler)
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
+
 }
 
 android {
@@ -83,4 +87,14 @@ dependencies {
     // Other dependencies
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("com.google.android.material:material:1.12.0")
+// Hilt for Jetpack Compose
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+
+    // Other Hilt dependencies (if not already added)
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+}
+// Allow references to generated code
+kapt {
+    correctErrorTypes = true
 }

@@ -24,23 +24,24 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.habiboo.R
 import com.example.habiboo.presentation.navigation.NavDestination
 import com.example.habiboo.presentation.theme.SulphurPoint
 import com.example.habiboo.presentation.theme.mainBlack
 import com.example.habiboo.presentation.theme.mainTextStyleMin
-
+import kotlinx.coroutines.delay
 
 
 @Composable
-fun SplashScreen(navController: NavHostController, vm: LoginScreenViewModel = viewModel()) {
+fun SplashScreen(navController: NavHostController, vm: LoginScreenViewModel = hiltViewModel()) {
     // Observe the LiveData
-    val isUserLoggedIn = vm.isUserLoggedIn.observeAsState(initial = null)
+    val isUserLoggedIn = vm.isUserLoggedIn.observeAsState()
 
     LaunchedEffect(isUserLoggedIn.value) {
+        delay(2000)
         when (isUserLoggedIn.value) {
             true -> {
                 navController.navigate(NavDestination.Home.route) {

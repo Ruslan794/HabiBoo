@@ -1,12 +1,12 @@
 package com.example.habiboo.data.network.services
 
-import com.example.habiboo.data.network.model.userAuth.AuthResponse
 import com.example.habiboo.data.network.model.userAuth.ChangePasswordRequest
 import com.example.habiboo.data.network.model.userAuth.EmailRequest
 import com.example.habiboo.data.network.model.userAuth.ForgotPasswordResponse
 import com.example.habiboo.data.network.model.userAuth.LoginRequest
 import com.example.habiboo.data.network.model.userAuth.RegisterRequest
 import com.example.habiboo.data.network.model.userAuth.ResetPasswordRequest
+import com.example.habiboo.domain.model.AuthResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
