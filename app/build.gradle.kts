@@ -74,7 +74,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation ("androidx.compose.material:material:1.3.0")
-    implementation (libs.androidx.navigation.compose.v242 )
+    implementation (libs.androidx.navigation.compose.v242)
 
     implementation("androidx.datastore:datastore-preferences:1.1.1")
     implementation("com.google.dagger:hilt-android:2.51.1")
