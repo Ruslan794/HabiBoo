@@ -1,8 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("kotlin-kapt")
-    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -77,8 +75,6 @@ dependencies {
     implementation (libs.androidx.navigation.compose.v242)
 
     implementation("androidx.datastore:datastore-preferences:1.1.1")
-    implementation("com.google.dagger:hilt-android:2.51.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
 
     // Other dependencies
     implementation("androidx.appcompat:appcompat:1.7.0")

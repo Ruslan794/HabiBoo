@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -50,6 +51,10 @@ fun LoginScreen(navController: NavHostController, vm: LoginScreenViewModel = vie
                 .fillMaxSize()
                 .padding(32.dp)
         ) {
+            Image(painter = painterResource(id= R.drawable.login_screen_image),
+                contentDescription = "Background Image",
+                modifier = Modifier.height(80.dp).width(80.dp),
+                contentScale = ContentScale.Fit)
             Text(
                 text = "HabiBoo", style = TextStyle(
                     fontFamily = SulphurPoint,
