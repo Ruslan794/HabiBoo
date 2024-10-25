@@ -24,6 +24,7 @@ interface UserAuthApiService {
     suspend fun register(@Body registerRequest: RegisterRequest): Response<AuthResponse>
 
 
+
     // Login with an external provider
     @GET("connect/{provider}")
     suspend fun loginWithProvider(@Path("provider") provider: String): AuthResponse
