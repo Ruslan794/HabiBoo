@@ -61,14 +61,15 @@ fun RoomCard(room: Room, onRoomClick: (String) -> Unit) {
         ) {
             Column(modifier = Modifier
                 .fillMaxHeight()
-                .padding(12.dp)) {
+                .padding(12.dp)
+                .weight(3f)) {
 
                 Text(
                     text = room.name,
                     style = mainTextStyleMin,
                     color = mainPurple,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 21.sp
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 20.sp
                 )
 
                 Row(
@@ -126,7 +127,8 @@ fun RoomCard(room: Room, onRoomClick: (String) -> Unit) {
                 contentDescription = "Loaded Image",
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(end = 10.dp),
+                    .padding(end = 10.dp)
+                    .weight(2f),
                 contentScale = ContentScale.FillHeight
             )
         }

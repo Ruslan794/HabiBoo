@@ -14,7 +14,7 @@ import com.example.habiboo.presentation.screens.loginscreen.SplashScreen
 @Composable
 fun AppNavHost(
     navController: NavHostController,
-    startDestination: String = NavDestination.Room.route,
+    startDestination: String = NavDestination.Splash.route,
 ) {
     NavHost(
         navController = navController,
