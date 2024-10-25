@@ -73,6 +73,7 @@ dependencies {
 
     implementation ("androidx.compose.material:material:1.3.0")
     implementation (libs.androidx.navigation.compose.v242)
+    implementation ("io.coil-kt:coil-compose:2.1.0")
 
     implementation("androidx.datastore:datastore-preferences:1.1.1")
 

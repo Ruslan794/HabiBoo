@@ -18,6 +18,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -29,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.habiboo.R
+import com.example.habiboo.presentation.navigation.NavDestination
 import com.example.habiboo.presentation.theme.SulphurPoint
 import com.example.habiboo.presentation.theme.mainBlack
 import com.example.habiboo.presentation.theme.mainPurple
@@ -39,6 +42,19 @@ import com.example.habiboo.presentation.theme.mainWhite
 
 @Composable
 fun LoginScreen(navController: NavHostController, vm: LoginScreenViewModel = viewModel()) {
+
+    val loginSuccess = vm.loginSuccess.observeAsState()
+
+    LaunchedEffect(loginSuccess.value) {
+        if (loginSuccess.value == true) {
+            navController.navigate(NavDestination.Home.route) {
+                popUpTo(navController.graph.startDestinationId) {
+                    inclusive = true
+                }
+            }
+        }
+    }
+
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
@@ -104,7 +120,7 @@ fun LoginScreen(navController: NavHostController, vm: LoginScreenViewModel = vie
                 )
 
                 TextButton(
-                    onClick = { /* Handle sign up */ },
+                    onClick = { vm.onSingInBtnPress() },
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
@@ -112,7 +128,7 @@ fun LoginScreen(navController: NavHostController, vm: LoginScreenViewModel = vie
                 }
 
                 Button(
-                    onClick = { /* Handle sign in */ },
+                    onClick = { vm.onSingInBtnPress()},
                     colors = ButtonDefaults.buttonColors(
                         containerColor = mainPurple  // Color of the content, e.g., Text
                     ),

@@ -39,7 +39,9 @@ import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.habiboo.R
+import com.example.habiboo.common.RoomCard
 import com.example.habiboo.domain.model.Habit
+import com.example.habiboo.domain.model.Room
 import com.example.habiboo.presentation.navigation.BottomNavigationBar
 import com.example.habiboo.presentation.navigation.NavDestination
 import com.example.habiboo.presentation.theme.PrimaryTextDark
@@ -47,7 +49,7 @@ import com.example.habiboo.presentation.theme.PrimaryTextDark
 @Composable
 fun HomeScreen(navController: NavHostController, vm: HomeScreenViewModel = viewModel()) {
 
-    val habitsState = vm.habits.observeAsState()
+    val roomsState = vm.rooms.observeAsState()
     val onAddBtnClicked  = {  navController.navigate(NavDestination.AddHabit.route)  }
 
     Scaffold(
@@ -59,11 +61,13 @@ fun HomeScreen(navController: NavHostController, vm: HomeScreenViewModel = viewM
                     .fillMaxSize()
                     .padding(padding)
             ) {
-                if (habitsState.value?.isEmpty() == true) {
+                if (roomsState.value?.isEmpty() == true) {
                     EmptyListPlaceHolder()
                 } else {
-                    habitsState.value?.let { HabitList(it,
-                        onHabitClick = { habitId ->
+                    roomsState.value?.let {
+
+                        RoomList(it,
+                        onRoomClick = { habitId ->
                      //   navController.navigate(NavDestination.A.createRoute(habitId))
                     })  }
                 }
@@ -86,19 +90,22 @@ fun TopBar() {
 }
 
 @Composable
-fun HabitList(habits: List<Habit>, onHabitClick: (String) -> Unit) {
+fun RoomList(rooms: List<Room>, onRoomClick: (String) -> Unit) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(20.dp)
     )
     {
-        items(habits) { h ->
-            HabitCard(habit = h, onHabitClick)
+        items(rooms) { r ->
+            RoomCard(room = r, onRoomClick)
             Spacer(modifier = Modifier.size(15.dp))
         }
     }
 }
+
+
+
 
 @Composable
 fun HabitCard(habit: Habit,  onHabitClick: (String) -> Unit) {
@@ -156,7 +163,7 @@ fun EmptyListPlaceHolder() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Text(text = "You have no habbits so far...\nStart right now!")
+        Text(text = "You have no rooms so far...\nStart right now!")
         Spacer(modifier = Modifier.height(20.dp))
     }
 }

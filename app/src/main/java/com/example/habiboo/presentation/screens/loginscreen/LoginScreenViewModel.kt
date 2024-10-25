@@ -63,6 +63,13 @@ class LoginScreenViewModel(
         checkIfUserIsLoggedIn()
     }
 
+    fun onSingInBtnPress() {
+
+             // Check log in data and log in
+
+        _loginSuccess.value = true
+     }
+
     // Функция для проверки, авторизован ли пользователь
     fun checkIfUserIsLoggedIn() {
         viewModelScope.launch {
