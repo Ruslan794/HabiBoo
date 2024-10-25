@@ -13,15 +13,17 @@ import com.example.habiboo.data.network.model.room.UpdateRoomRequest
 import com.example.habiboo.data.network.model.room.UpdateRoomResponse
 import com.example.habiboo.data.network.model.userAuth.User
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface RoomService {
+interface RoomsApiService {
 
     @POST("/enterRoom")
     fun enterRoom(@Body request: EnterRoomRequest): Call<EnterRoomResponse>
@@ -31,11 +33,18 @@ interface RoomService {
     fun leaveRoom(@Body request: LeaveRoomRequest): Call<LeaveRoomResponse>
 
 
-    @GET("/topRooms")
-    fun getTopRooms(
+    @GET("find-user-room")
+    suspend fun getTopRooms(
         @Query("page") page: Int = 1,
         @Query("pageSize") pageSize: Int = 10
-    ): Call<TopRoomsResponse>
+    ): Response<TopRoomsResponse>
+
+    @GET("rooms/top-rooms")
+    suspend fun getMyRooms(
+//        @Header("Authorization") authorization: String,
+        @Query("page") page: Int = 1,
+        @Query("pageSize") pageSize: Int = 10
+    ): Response<TopRoomsResponse>
 
     @GET("/findUsersByRoom/{roomId}")
     fun findUsersByRoom(@Path("roomId") roomId: String): Call<List<User>>

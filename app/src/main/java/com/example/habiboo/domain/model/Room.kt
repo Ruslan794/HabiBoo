@@ -8,6 +8,6 @@ data class Room(
     val currentMembers: Int,       // Текущее количество участников в комнате
     val isPrivate: Boolean,        // Приватная комната или нет
     val imageUrl: String?,         // URL изображения, связанного с комнатой (если есть)
-    val tasks: List<Task>          // Список задач, связанных с комнатой
+    val tasks: List<Task>,          // Список задач, связанных с комнатой
 )
 

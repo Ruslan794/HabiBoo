@@ -19,31 +19,37 @@ class TokenRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context
 ) : TokenRepository {
 
-    // Ключ для хранения JWT токена
     companion object {
         private val KEY_JWT_TOKEN = stringPreferencesKey("jwt_token")
     }
 
-    // Сохранение JWT токена
+    // Переменная для кеширования токена в памяти
+    @Volatile
+    private var cachedToken: String? = null
+
     override suspend fun saveToken(token: String) {
         try {
             context.dataStore.edit { preferences ->
                 preferences[KEY_JWT_TOKEN] = token
             }
+            cachedToken = token // Обновляем кеш
         } catch (e: Exception) {
-            // Log error or handle it accordingly
+            // Обработка ошибки
         }
     }
 
     override suspend fun getToken(): String? {
         return try {
-            context.dataStore.data
+            cachedToken ?: context.dataStore.data
                 .map { preferences ->
                     preferences[KEY_JWT_TOKEN]
                 }
                 .first()
+                .also { token ->
+                    cachedToken = token // Кешируем токен
+                }
         } catch (e: Exception) {
-            // Log error or handle it accordingly
+            // Обработка ошибки
             null
         }
     }
@@ -53,17 +59,13 @@ class TokenRepositoryImpl @Inject constructor(
             context.dataStore.edit { preferences ->
                 preferences.remove(KEY_JWT_TOKEN)
             }
+            cachedToken = null // Очищаем кеш
         } catch (e: Exception) {
-            // Log error or handle it accordingly
+            // Обработка ошибки
         }
     }
 
-    // Optional: Expose token as a Flow
-    fun getTokenFlow(): Flow<String?> {
-        return context.dataStore.data
-            .map { preferences ->
-                preferences[KEY_JWT_TOKEN]
-            }
+    override fun getCachedToken(): String? {
+        return cachedToken
     }
-
 }
