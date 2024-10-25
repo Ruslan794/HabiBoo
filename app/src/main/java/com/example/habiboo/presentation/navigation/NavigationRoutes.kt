@@ -5,7 +5,8 @@ enum class Screen {
     ADD_HABIT,
     LOGIN,
     SPlASH,
-    COMMUNITY
+    COMMUNITY,
+    ROOM
 }
 
 sealed class NavDestination(val route: String) {
@@ -14,4 +15,5 @@ sealed class NavDestination(val route: String) {
     data object Login: NavDestination(Screen.LOGIN.name)
     data object Splash: NavDestination(Screen.SPlASH.name)
     data object Community: NavDestination(Screen.COMMUNITY.name)
+    data object Room: NavDestination(Screen.ROOM.name)
 }

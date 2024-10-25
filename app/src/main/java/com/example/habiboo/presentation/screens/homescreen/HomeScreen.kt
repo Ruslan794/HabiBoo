@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.habiboo.common.EmptyListPlaceHolder
 import com.example.habiboo.common.RoomCard
 import com.example.habiboo.common.SearchBar
 import com.example.habiboo.domain.model.Room
@@ -40,7 +41,6 @@ fun HomeScreen(navController: NavHostController, vm: HomeScreenViewModel = viewM
     val roomsState = vm.rooms.observeAsState()
 
     RoomJoinDialog(true) {  }
-
 
     Scaffold(
         topBar = {
@@ -101,19 +101,5 @@ fun RoomList(rooms: List<Room>, onRoomClick: (String) -> Unit, modifier: Modifie
             RoomCard(room = room, onRoomClick)
             Spacer(modifier = Modifier.size(15.dp))
         }
-    }
-}
-
-@Composable
-fun EmptyListPlaceHolder(modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(bottom = 56.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = "You have no rooms so far...\nStart right now!")
-        Spacer(modifier = Modifier.height(20.dp))
     }
 }

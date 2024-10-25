@@ -13,7 +13,8 @@ val Poppins = FontFamily(
     Font(R.font.poppins_regular, weight = FontWeight.Normal),
     Font(R.font.poppins_bold, weight = FontWeight.Bold),
     Font(R.font.poppins_black, weight = FontWeight.Black),
-    Font(R.font.poppins_light, weight = FontWeight.Light)
+    Font(R.font.poppins_light, weight = FontWeight.Light),
+    Font(R.font.poppins_semi_bold, weight = FontWeight.SemiBold)
 )
 
 val SulphurPoint = FontFamily(
