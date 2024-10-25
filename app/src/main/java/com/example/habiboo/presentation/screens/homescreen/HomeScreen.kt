@@ -12,7 +12,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -27,71 +31,82 @@ import com.example.habiboo.domain.model.Room
 import com.example.habiboo.presentation.navigation.BottomNavigationBar
 import com.example.habiboo.presentation.theme.backgroundWhite
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavHostController, vm: HomeScreenViewModel = viewModel()) {
 
     val roomsState = vm.rooms.observeAsState()
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(backgroundWhite)
-    ) {
-
-        Box(
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text("Rooms")
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Transparent,
+                    scrolledContainerColor = Color.Transparent
+                )
+            )
+        },
+        bottomBar = {
+            BottomNavigationBar(navController = navController)
+        }
+    ) { paddingValues ->
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp)
-                .background(Color.Transparent),
-            contentAlignment = Alignment.TopCenter
+                .fillMaxSize()
+                .background(backgroundWhite)
+                .padding(paddingValues)
         ) {
             SearchBar()
-        }
 
-        if (roomsState.value?.isEmpty() == true) {
-            EmptyListPlaceHolder()
-        } else {
-            roomsState.value?.let {
-                RoomList(
-                    it,
-                    onRoomClick = { habitId ->
-                        // navController.navigate(NavDestination.A.createRoute(habitId))
-                    },
-                )
+            if (roomsState.value?.isEmpty() == true) {
+                EmptyListPlaceHolder(modifier = Modifier.weight(1f))
+            } else {
+                roomsState.value?.let {
+                    RoomList(
+                        rooms = it,
+                        onRoomClick = { habitId ->
+                            // navController.navigate(NavDestination.A.createRoute(habitId))
+                        },
+                        modifier = Modifier.weight(1f)
+                    )
+                }
             }
         }
-
-        BottomNavigationBar(navController = navController)
-
     }
 }
 
 @Composable
-fun RoomList(rooms: List<Room>, onRoomClick: (String) -> Unit) {
+fun RoomList(rooms: List<Room>, onRoomClick: (String) -> Unit, modifier: Modifier = Modifier) {
     LazyColumn(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
-            .padding(20.dp)
-            .padding(vertical = 56.dp)
-    )
-    {
-        items(rooms) { r ->
-            RoomCard(room = r, onRoomClick)
+            .padding(horizontal = 20.dp)
+            .padding(top = 20.dp)
+    ) {
+        items(rooms) { room ->
+            RoomCard(room = room, onRoomClick)
             Spacer(modifier = Modifier.size(15.dp))
         }
     }
 }
 
 @Composable
-fun EmptyListPlaceHolder() {
+fun EmptyListPlaceHolder(modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier
-            .padding(bottom = 56.dp)
-            .fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(bottom = 56.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         Text(text = "You have no rooms so far...\nStart right now!")
         Spacer(modifier = Modifier.height(20.dp))
     }

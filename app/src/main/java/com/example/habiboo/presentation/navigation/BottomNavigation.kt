@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.BottomNavigation
@@ -37,52 +38,52 @@ val items = listOf(
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
-
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
-
-        BottomNavigation(
-            backgroundColor = Color.White,
-            contentColor = Color.White,
-            modifier = Modifier.height(80.dp)
-        ) {
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentRoute = navBackStackEntry?.destination?.route
-            items.forEach { item ->
-                BottomNavigationItem(
-                    icon = {
-                        Image(
-                            painter = painterResource(item.icon),
-                            contentDescription = "Bottom navigation Image",
-                            modifier = Modifier
-                                .height(40.dp)
-                                .width(40.dp)
-                                .padding(5.dp),
-                            contentScale = ContentScale.Fit,
-                            colorFilter = if (currentRoute == item.route) ColorFilter.tint(
-                                mainPurple
-                            )
-                            else ColorFilter.tint(Color.Black)
-                        )
-                    },
-                    label = {
-                        Text(
-                            item.title,
-                            style = mainTextStyleMin,
-                            fontSize = 14.sp,
-                        )
-                    },
-                    selected = currentRoute == item.route,
-                    onClick = {
+    BottomNavigation(
+        backgroundColor = Color.White,
+        contentColor = Color.White,
+        modifier = Modifier
+            .navigationBarsPadding() // Добавляем этот модификатор
+            .height(56.dp) // Стандартная высота для BottomNavigationBar
+    ) {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
+        items.forEach { item ->
+            BottomNavigationItem(
+                icon = {
+                    Image(
+                        painter = painterResource(item.icon),
+                        contentDescription = "Bottom navigation Image",
+                        modifier = Modifier
+                            .height(24.dp)
+                            .width(24.dp),
+                        contentScale = ContentScale.Fit,
+                        colorFilter = if (currentRoute == item.route) {
+                            ColorFilter.tint(mainPurple)
+                        } else {
+                            ColorFilter.tint(Color.Black)
+                        }
+                    )
+                },
+                label = {
+                    Text(
+                        item.title,
+                        style = mainTextStyleMin,
+                        fontSize = 12.sp,
+                    )
+                },
+                selected = currentRoute == item.route,
+                onClick = {
+                    if (item.route.isNotEmpty()) {
                         navController.navigate(item.route) {
                             launchSingleTop = true
                             restoreState = true
                         }
-                    },
-                    selectedContentColor = mainPurple,
-                    unselectedContentColor = Color.Black,
-                    modifier = Modifier.padding(vertical = 6.dp),
-                )
-            }
+                    }
+                },
+                selectedContentColor = mainPurple,
+                unselectedContentColor = Color.Black,
+                // Убираем лишние отступы
+            )
         }
     }
 }
