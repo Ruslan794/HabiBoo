@@ -31,13 +31,14 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.habiboo.R
+import com.example.habiboo.presentation.navigation.BottomNavigationBar
 import com.example.habiboo.presentation.navigation.NavDestination
 import com.example.habiboo.presentation.theme.SulphurPoint
+import com.example.habiboo.presentation.theme.backgroundWhite
 import com.example.habiboo.presentation.theme.mainBlack
 import com.example.habiboo.presentation.theme.mainPurple
 import com.example.habiboo.presentation.theme.mainRose
 import com.example.habiboo.presentation.theme.mainTextStyleMin
-import com.example.habiboo.presentation.theme.mainWhite
 
 
 @Composable
@@ -95,7 +96,7 @@ fun LoginScreen(navController: NavHostController, vm: LoginScreenViewModel = vie
 
             Column(
                 modifier = Modifier
-                    .background(color = mainWhite, shape = RoundedCornerShape(10.dp))
+                    .background(color = backgroundWhite, shape = RoundedCornerShape(10.dp))
                     .padding(horizontal = 15.dp, vertical = 25.dp)
             )
             {
@@ -144,7 +145,6 @@ fun LoginScreen(navController: NavHostController, vm: LoginScreenViewModel = vie
                     Text("Sign up", style = mainTextStyleMin, fontSize = 16.sp)
                 }
             }
-
         }
     }
 }

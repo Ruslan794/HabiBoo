@@ -22,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -44,6 +45,9 @@ fun RoomCard(room: Room, onRoomClick: (String) -> Unit) {
     Card(
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        ),
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onRoomClick(room.id) }
@@ -55,7 +59,9 @@ fun RoomCard(room: Room, onRoomClick: (String) -> Unit) {
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            Column(modifier = Modifier.fillMaxHeight().padding(12.dp)) {
+            Column(modifier = Modifier
+                .fillMaxHeight()
+                .padding(12.dp)) {
 
                 Text(
                     text = room.name,
@@ -118,7 +124,9 @@ fun RoomCard(room: Room, onRoomClick: (String) -> Unit) {
                     .crossfade(true)
                     .build(),
                 contentDescription = "Loaded Image",
-                modifier = Modifier.fillMaxSize().padding(end = 10.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(end = 10.dp),
                 contentScale = ContentScale.FillHeight
             )
         }
