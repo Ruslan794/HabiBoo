@@ -7,16 +7,20 @@ import androidx.lifecycle.viewModelScope
 import com.example.habiboo.domain.repository.AuthRepository
 import com.example.habiboo.domain.use_case.get_token.GetTokenUseCase
 import com.example.habiboo.domain.use_case.save_token.SaveTokenUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginScreenViewModel(
+@HiltViewModel
+class LoginScreenViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val saveTokenUseCase: SaveTokenUseCase,
     private val getTokenUseCase: GetTokenUseCase
 ) : ViewModel() {
 
     // LiveData для управления состоянием загрузки
-    private val _loading = MutableLiveData<Boolean>()
+    private val _loading = MutableLiveData(false)
     val loading: LiveData<Boolean> get() = _loading
 
     // LiveData для отображения ошибок
@@ -24,11 +28,11 @@ class LoginScreenViewModel(
     val error: LiveData<String?> get() = _error
 
     // LiveData для успешного входа
-    private val _loginSuccess = MutableLiveData<Boolean>()
+    private val _loginSuccess = MutableLiveData(false)
     val loginSuccess: LiveData<Boolean> get() = _loginSuccess
 
     // LiveData для проверки авторизации
-    private val _isUserLoggedIn = MutableLiveData<Boolean>()
+    private val _isUserLoggedIn = MutableLiveData(false)
     val isUserLoggedIn: LiveData<Boolean> get() = _isUserLoggedIn
 
     // Функция для выполнения входа
@@ -57,9 +61,9 @@ class LoginScreenViewModel(
     // Функция для проверки, авторизован ли пользователь
     fun checkIfUserIsLoggedIn() {
         viewModelScope.launch {
+            delay(2000) // Задержка в 2 секунды перед проверкой токена
             val token = getTokenUseCase()
             _isUserLoggedIn.value = token != null // true, если токен есть
         }
     }
-
 }
