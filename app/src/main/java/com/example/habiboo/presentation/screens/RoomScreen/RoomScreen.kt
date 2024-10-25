@@ -19,14 +19,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.outlined.Warning
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
@@ -40,13 +35,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.habiboo.R
 import com.example.habiboo.common.EmptyListPlaceHolder
 import com.example.habiboo.domain.model.Room
@@ -194,78 +191,115 @@ fun PostCard() {
         elevation = 4.dp,
         modifier = Modifier.padding(8.dp)
     ) {
-        Column(modifier = Modifier.fillMaxWidth()) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp)
+        ) {
             Row(
-                modifier = Modifier.fillMaxWidth().padding(8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(
-                    painter = painterResource(R.drawable.profile_icon),
+
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data("http://40.67.243.239/uploads/coin_41b97a9b89.png")
+                        //    .data(room.imageUrl)
+                        .crossfade(true)
+                        .build(),
                     contentDescription = "Profile picture",
-                    modifier = Modifier.size(40.dp).clip(RoundedCornerShape(50)),
+                    modifier = Modifier
+                        .size(40.dp),
                     contentScale = ContentScale.Crop
                 )
-                Spacer(Modifier.width(8.dp))
-                Text("Peter Parker", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                Spacer(Modifier.width(16.dp))
+                Text(
+                    "Peter Parker",
+                    fontWeight = FontWeight.SemiBold,
+                    style = mainTextStyleMin,
+                    fontSize = 16.sp
+                )
                 Spacer(Modifier.weight(1f))
-                Icon(
-                    imageVector = Icons.Outlined.Warning,
-                    contentDescription = "Alert",
-                    modifier = Modifier.size(24.dp)
+                Image(
+                    painter = painterResource(R.drawable.report_icon),
+                    contentDescription = "Profile picture",
+                    modifier = Modifier
+                        .size(25.dp),
                 )
             }
-            Image(
-                painter = painterResource(R.drawable.ic_launcher_background),
+
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data("http://40.67.243.239/uploads/Main_After_6488a7899c.jpg")
+                    //    .data(room.imageUrl)
+                    .crossfade(true)
+                    .build(),
                 contentDescription = "Workout Image",
-                modifier = Modifier.fillMaxWidth().height(200.dp),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .clip(RoundedCornerShape(15.dp)),
             )
-            Icon(
-                imageVector = Icons.Filled.PlayArrow,
-                contentDescription = "Play Video",
-                modifier = Modifier.size(48.dp).align(Alignment.CenterHorizontally),
-                tint = Color.White
-            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
             Text(
                 "Hello, guys! Finished my workout this morning!",
-                modifier = Modifier.padding(8.dp),
-                fontSize = 14.sp
+                style = mainTextStyleMin,
+                fontSize = 15.sp
             )
+            Spacer(modifier = Modifier.height(16.dp))
+
             Row(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.comment_dots),
                     contentDescription = "Background Image",
-                    modifier = Modifier.size(20.dp),
+                    modifier = Modifier.size(25.dp),
                     contentScale = ContentScale.Fit
                 )
-                Text("10", modifier = Modifier.padding(start = 4.dp))
-                Spacer(Modifier.width(16.dp))
-                Icon(
-                    imageVector = Icons.Filled.Favorite,
-                    contentDescription = "Likes",
-                    tint = Color.Red
+                Text(
+                    "10",
+                    fontSize = 14.sp,
+                    modifier = Modifier.padding(start = 4.dp),
+                    style = mainTextStyleMin
                 )
-                Text("4", modifier = Modifier.padding(start = 4.dp))
-                Spacer(Modifier.width(16.dp))
-                Icon(
-                    imageVector = Icons.Filled.Favorite,
-                    contentDescription = "Shares",
-                    tint = Color.Blue
+                Spacer(Modifier.weight(10f))
+                Image(
+                    painter = painterResource(id = R.drawable.heart_break_icon),
+                    contentDescription = "",
+                    modifier = Modifier.size(25.dp),
+                    contentScale = ContentScale.Fit
                 )
-                Text("4", modifier = Modifier.padding(start = 4.dp))
+                Text(
+                    "4",
+                    fontSize = 14.sp,
+                    modifier = Modifier.padding(start = 4.dp),
+                    style = mainTextStyleMin
+                )
+                Spacer(Modifier.weight(1f))
+                Image(
+                    painter = painterResource(id = R.drawable.heart_icon),
+                    contentDescription = "",
+                    modifier = Modifier.size(25.dp),
+                    contentScale = ContentScale.Fit
+                )
+                Text(
+                    "4",
+                    fontSize = 14.sp,
+                    modifier = Modifier.padding(start = 4.dp),
+                    style = mainTextStyleMin
+                )
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewPostCard() {
-    MaterialTheme {
-        PostCard()
     }
 }
 
@@ -277,7 +311,9 @@ fun WeekDaysRow() {
 
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
     ) {
         items(days.zip(dates)) { (day, date) ->
             DayButton(day, date)
