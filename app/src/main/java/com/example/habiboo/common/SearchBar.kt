@@ -23,14 +23,17 @@ import androidx.compose.ui.unit.sp
 import com.example.habiboo.R
 
 @Composable
-fun SearchBar() {
-    val iconSize = 24.dp // Уменьшил размер иконок для более аккуратного вида
-    val cornerRadius = 16.dp // Радиус скругления углов
-    val shadowElevation = 8.dp // Высота тени
+fun SearchBar(
+    value: String,
+    onValueChange: (String) -> Unit
+) {
+    val iconSize = 24.dp
+    val cornerRadius = 16.dp
+    val shadowElevation = 8.dp
 
     OutlinedTextField(
-        value = "",
-        onValueChange = { },
+        value = value,
+        onValueChange = onValueChange,
         leadingIcon = {
             Image(
                 painter = painterResource(R.drawable.search_icon),
@@ -55,7 +58,7 @@ fun SearchBar() {
         singleLine = true,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             textColor = Color.Black,
-            backgroundColor = Color.White, // Устанавливаем белый фон
+            backgroundColor = Color.White,
             cursorColor = Color.Black,
             focusedBorderColor = Color.Transparent,
             unfocusedBorderColor = Color.Transparent,
@@ -71,10 +74,10 @@ fun SearchBar() {
                 shape = RoundedCornerShape(cornerRadius),
                 clip = true
             ),
-        shape = RoundedCornerShape(cornerRadius), // Скругляем углы
+        shape = RoundedCornerShape(cornerRadius),
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
         keyboardActions = KeyboardActions(onSearch = {
-            // Define the action on search press
+            // Опционально: обработка нажатия кнопки поиска на клавиатуре
         })
     )
 }
