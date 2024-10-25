@@ -8,10 +8,15 @@ import com.example.habiboo.domain.model.Habit
 import com.example.habiboo.domain.model.NotificationSettings
 import com.example.habiboo.domain.model.Room
 import com.example.habiboo.domain.model.Task
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
+import javax.inject.Inject
 
-class HomeScreenViewModel : ViewModel() {
+@HiltViewModel
+class HomeScreenViewModel @Inject constructor(
+    // your dependencies here
+) : ViewModel() {
 
     private val _rooms = MutableLiveData<List<Room>>()
     val rooms: LiveData<List<Room>> get() = _rooms
