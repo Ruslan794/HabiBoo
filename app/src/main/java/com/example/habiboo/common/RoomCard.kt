@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -42,6 +45,9 @@ fun RoomCard(room: Room, onRoomClick: (String) -> Unit) {
     Card(
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        ),
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onRoomClick(room.id) }
@@ -53,17 +59,24 @@ fun RoomCard(room: Room, onRoomClick: (String) -> Unit) {
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            Column {
+            Column(modifier = Modifier
+                .fillMaxHeight()
+                .padding(12.dp)) {
+
                 Text(
                     text = room.name,
                     style = mainTextStyleMin,
                     color = mainPurple,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 21.sp
                 )
 
-                Row {
+                Row(
+                    modifier = Modifier.padding(top = 12.dp),
+                    horizontalArrangement = Arrangement.Center
+                ) {
                     Image(
-                        painter = painterResource(id = R.drawable.login_screen_image),
+                        painter = painterResource(id = R.drawable.community_icon),
                         contentDescription = "Background Image",
                         modifier = Modifier
                             .height(20.dp)
@@ -71,12 +84,14 @@ fun RoomCard(room: Room, onRoomClick: (String) -> Unit) {
                         contentScale = ContentScale.Fit
                     )
                     Text(
-                        text = "${room.currentMembers}/${room.maxMembers}",
+                        text = "${room.currentMembers}",
                         style = mainTextStyleMin,
+                        fontSize = 16.sp,
+                        modifier = Modifier.padding(horizontal = 8.dp)
                     )
 
                     Image(
-                        painter = painterResource(id = R.drawable.login_screen_image),
+                        painter = painterResource(id = if (room.isPrivate) R.drawable.lock_locked else R.drawable.lock_unlocked),
                         contentDescription = "Background Image",
                         modifier = Modifier
                             .height(20.dp)
@@ -85,22 +100,34 @@ fun RoomCard(room: Room, onRoomClick: (String) -> Unit) {
                     )
                     Text(
                         text = if (room.isPrivate) "Private" else "Public",
+                        fontSize = 16.sp,
                         style = mainTextStyleMin,
+                        modifier = Modifier.padding(horizontal = 8.dp)
                     )
 
                 }
 
-                Text(text = "Read info", style = mainTextStyleMin, textDecoration = TextDecoration.Underline)
+                Spacer(modifier = Modifier.padding(top = 12.dp))
+                Text(
+                    text = "Read info",
+                    style = mainTextStyleMin,
+                    fontSize = 18.sp,
+                    textDecoration = TextDecoration.Underline
+                )
             }
+            Spacer(modifier = Modifier.width(25.dp))
 
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(room.imageUrl)
+                    .data("http://40.67.243.239/uploads/wood_background_fef613d6ba.jpg")
+                    //    .data(room.imageUrl)
                     .crossfade(true)
                     .build(),
                 contentDescription = "Loaded Image",
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(end = 10.dp),
+                contentScale = ContentScale.FillHeight
             )
         }
     }

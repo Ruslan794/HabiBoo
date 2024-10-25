@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.habiboo.presentation.screens.addhabitscreen.AddHabitScreen
+import com.example.habiboo.presentation.screens.communityscreen.CommunityScreen
 import com.example.habiboo.presentation.screens.homescreen.HomeScreen
 import com.example.habiboo.presentation.screens.loginscreen.LoginScreen
 import com.example.habiboo.presentation.screens.loginscreen.SplashScreen
@@ -31,6 +32,9 @@ fun AppNavHost(
         }
         composable(NavDestination.Splash.route) {
             SplashScreen(navController)
+        }
+        composable(NavDestination.Community.route) {
+            CommunityScreen(navController)
         }
     }
 }

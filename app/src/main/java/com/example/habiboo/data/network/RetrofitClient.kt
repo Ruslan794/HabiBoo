@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
-    private const val BASE_URL = "https://your-api-base-url.com/" // Replace with your actual base URL
+    private const val BASE_URL = "http://40.67.243.239/api/" // Replace with your actual base URL
 
     // Create an OkHttpClient instance for custom configurations (if needed)
     private val okHttpClient = OkHttpClient.Builder()

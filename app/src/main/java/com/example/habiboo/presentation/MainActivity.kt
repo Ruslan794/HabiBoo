@@ -10,7 +10,9 @@ import com.example.habiboo.presentation.navigation.AppNavHost
 import com.example.habiboo.presentation.screens.homescreen.HomeScreen
 import com.example.habiboo.presentation.screens.homescreen.HomeScreenViewModel
 import com.example.habiboo.presentation.theme.HabiBooTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val homeScreenViewModel by viewModels<HomeScreenViewModel> ()
