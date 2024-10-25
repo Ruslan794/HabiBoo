@@ -36,8 +36,8 @@ import com.example.habiboo.presentation.theme.mainBlack
 import com.example.habiboo.presentation.theme.mainPurple
 import com.example.habiboo.presentation.theme.mainRose
 import com.example.habiboo.presentation.theme.mainTextStyleMin
-import com.example.habiboo.presentation.theme.mainWhite
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.habiboo.presentation.theme.backgroundWhite
 
 @Composable
 fun LoginScreen(navController: NavHostController, vm: LoginScreenViewModel = hiltViewModel()) {
@@ -94,7 +94,7 @@ fun LoginScreen(navController: NavHostController, vm: LoginScreenViewModel = hil
 
             Column(
                 modifier = Modifier
-                    .background(color = mainWhite, shape = RoundedCornerShape(10.dp))
+                    .background(color = backgroundWhite, shape = RoundedCornerShape(10.dp))
                     .padding(horizontal = 15.dp, vertical = 25.dp)
             )
             {
