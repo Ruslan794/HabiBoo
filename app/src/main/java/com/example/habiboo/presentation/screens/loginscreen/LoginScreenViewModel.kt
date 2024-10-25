@@ -5,12 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.habiboo.domain.repository.AuthRepository
+import com.example.habiboo.domain.use_case.get_token.GetTokenUseCase
 import com.example.habiboo.domain.use_case.save_token.SaveTokenUseCase
 import kotlinx.coroutines.launch
 
 class LoginScreenViewModel(
     private val authRepository: AuthRepository,
-    private val saveTokenUseCase: SaveTokenUseCase
+    private val saveTokenUseCase: SaveTokenUseCase,
+    private val getTokenUseCase: GetTokenUseCase
 ) : ViewModel() {
 
     // LiveData для управления состоянием загрузки
@@ -24,6 +26,10 @@ class LoginScreenViewModel(
     // LiveData для успешного входа
     private val _loginSuccess = MutableLiveData<Boolean>()
     val loginSuccess: LiveData<Boolean> get() = _loginSuccess
+
+    // LiveData для проверки авторизации
+    private val _isUserLoggedIn = MutableLiveData<Boolean>()
+    val isUserLoggedIn: LiveData<Boolean> get() = _isUserLoggedIn
 
     // Функция для выполнения входа
     fun login(email: String, password: String) {
@@ -47,4 +53,13 @@ class LoginScreenViewModel(
             }
         }
     }
+
+    // Функция для проверки, авторизован ли пользователь
+    fun checkIfUserIsLoggedIn() {
+        viewModelScope.launch {
+            val token = getTokenUseCase()
+            _isUserLoggedIn.value = token != null // true, если токен есть
+        }
+    }
+
 }
