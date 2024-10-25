@@ -1,5 +1,5 @@
 package com.example.habiboo.data.network.model.room
-
+import com.example.habiboo.data.network.model.post.PostData
 import com.example.habiboo.data.network.model.userAuth.User
 
 data class RoomAttributes (

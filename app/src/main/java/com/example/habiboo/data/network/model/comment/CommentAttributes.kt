@@ -1,6 +1,6 @@
 package com.example.habiboo.data.network.model.comment
 
-import com.example.habiboo.data.network.model.room.PostData
+import com.example.habiboo.data.network.model.post.PostData
 import com.example.habiboo.data.network.model.room.UserData
 
 data class CommentAttributes(

@@ -1,6 +1,7 @@
 package com.example.habiboo.data.network.services
 
 import com.example.habiboo.data.network.model.post.Post
+import com.example.habiboo.data.network.model.post.PostData
 import com.example.habiboo.data.network.model.post.PostRequest
 import com.example.habiboo.data.network.model.post.PostResponse
 import retrofit2.Response
@@ -27,7 +28,7 @@ interface PostService {
     ): Response<PostResponse>
 
     @POST("/posts")
-    suspend fun createPost(@Body post: Post): Response<Post>
+    suspend fun createPost(@Body post: PostData): Response<PostData>
 
     @GET("/api/posts/{id}")
     suspend fun getPostById(

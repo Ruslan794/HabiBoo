@@ -1,5 +1,5 @@
 package com.example.habiboo.data.network.model.room
-
+import com.example.habiboo.data.network.model.post.PostData
 data class RoomResponseAttributes(
     val name: String,
     val description: String?,
