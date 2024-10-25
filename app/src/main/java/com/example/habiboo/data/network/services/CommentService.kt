@@ -2,7 +2,10 @@ package com.example.habiboo.data.network.services
 
 import com.example.habiboo.data.network.model.comment.CommentRequest
 import com.example.habiboo.data.network.model.comment.CommentResponse
+import com.example.habiboo.data.network.model.post.PostRequest
+import com.example.habiboo.data.network.model.post.PostResponse
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
 interface CommentService {
@@ -33,9 +36,15 @@ interface CommentService {
     ): Call<CommentResponse>
 
 
-    @PUT("/comments/{id}")
-    fun updateComment(@Path("id") id: Int): AnyMethodTODO
+    @PUT("/api/posts/{id}")
+    suspend fun updatePost(
+        @Path("id") id: Int,
+        @Body postRequest: PostRequest
+    ): Response<PostResponse>
 
-    @DELETE("/comments/{id}")
-    fun deleteComment(@Path("id") id: Int): AnyMethodTODO
+
+    @DELETE("/api/posts/{id}")
+    suspend fun deletePost(
+        @Path("id") id: Int
+    ): Response<PostResponse>
 }
