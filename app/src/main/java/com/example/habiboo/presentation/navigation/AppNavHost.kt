@@ -8,11 +8,12 @@ import androidx.navigation.compose.composable
 import com.example.habiboo.presentation.screens.addhabitscreen.AddHabitScreen
 import com.example.habiboo.presentation.screens.homescreen.HomeScreen
 import com.example.habiboo.presentation.screens.homescreen.HomeScreenViewModel
+import com.example.habiboo.presentation.screens.loginscreen.LoginScreen
 
 @Composable
 fun AppNavHost(
     navController: NavHostController,
-    startDestination: String = NavDestination.Home.route,
+    startDestination: String = NavDestination.LogIn.route,
 ) {
     NavHost(
         navController = navController,
@@ -24,6 +25,10 @@ fun AppNavHost(
 
         composable(NavDestination.AddHabit.route){
             AddHabitScreen(navController)
+        }
+
+        composable(NavDestination.LogIn.route){
+            LoginScreen(navController)
         }
     }
 }

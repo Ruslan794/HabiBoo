@@ -24,7 +24,6 @@ class HomeScreenViewModel : ViewModel() {
             // delay(2000)
             _habits.value = habitsSample
         }
-
     }
 }
 

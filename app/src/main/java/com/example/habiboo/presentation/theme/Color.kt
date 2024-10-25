@@ -2,6 +2,23 @@ package com.example.habiboo.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
+
+
+
+
+val MainWhite = Color(0xFFFDFCF7)
+val mainBlack = Color(0xFF212529)
+val mainPurple = Color(0xFF9B5DE5)
+val mainRose= Color(0xFFE22D93)
+
+
+
+
+
+
+
+
+
 val SoftOrange80 = Color(0xFFFFD8A5)
 val SoftOrangeGrey80 = Color(0xFFDEC7B0)
 val SoftPink80 = Color(0xFFF8B8C0)
