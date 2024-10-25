@@ -32,9 +32,9 @@ class PostRepositoryImpl(private val postService: PostService) {
     }
 
     // Method to create a new post
-    suspend fun createPost(post: Post): Response<Post> {
-        return postService.createPost(post)
-    }
+  //  suspend fun createPost(post: Post): Response<Post> {
+    //    return postService.createPost(post)
+    // }
 
     // Method to fetch a post by its ID
     suspend fun getPostById(id: Int): Response<PostResponse> {

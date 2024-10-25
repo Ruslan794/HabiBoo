@@ -74,7 +74,7 @@ fun CommunityScreen(navController: NavHostController, vm: CommunityScreenViewMod
             )
 
             if (filteredRooms.isEmpty()) {
-                com.example.habiboo.presentation.screens.homescreen.EmptyListPlaceHolder(
+                EmptyListPlaceHolder(
                     modifier = Modifier.weight(
                         1f
                     )

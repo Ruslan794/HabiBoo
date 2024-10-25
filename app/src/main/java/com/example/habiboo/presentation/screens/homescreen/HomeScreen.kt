@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.habiboo.common.EmptyListPlaceHolder
 import com.example.habiboo.common.RoomCard
 import com.example.habiboo.common.SearchBar
 import com.example.habiboo.data.network.model.room.Room
@@ -42,8 +43,7 @@ fun HomeScreen(navController: NavHostController, vm: HomeScreenViewModel = hiltV
     val searchQuery by vm.searchQuery.observeAsState("")
     val filteredRooms by vm.filteredRooms.observeAsState(emptyList())
 
-    RoomJoinDialog(true) {  }
-
+  //  RoomJoinDialog(true) {  }
 
     Scaffold(
         topBar = {
@@ -104,19 +104,5 @@ fun RoomList(rooms: List<Room>, onRoomClick: (String) -> Unit, modifier: Modifie
             RoomCard(room = room, onRoomClick)
             Spacer(modifier = Modifier.size(15.dp))
         }
-    }
-}
-
-@Composable
-fun EmptyListPlaceHolder(modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(bottom = 56.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = "You have no rooms so far...\nStart right now!")
-        Spacer(modifier = Modifier.height(20.dp))
     }
 }
