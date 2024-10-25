@@ -19,26 +19,29 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.habiboo.common.EmptyListPlaceHolder
 import com.example.habiboo.common.RoomCard
 import com.example.habiboo.common.SearchBar
-import com.example.habiboo.domain.model.Room
+import com.example.habiboo.data.network.model.room.Room
 import com.example.habiboo.domain.model.Task
 import com.example.habiboo.presentation.navigation.BottomNavigationBar
 import com.example.habiboo.presentation.theme.backgroundWhite
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavHostController, vm: HomeScreenViewModel = viewModel()) {
+fun HomeScreen(navController: NavHostController, vm: HomeScreenViewModel = hiltViewModel()) {
 
-    val roomsState = vm.rooms.observeAsState()
+    val searchQuery by vm.searchQuery.observeAsState("")
+    val filteredRooms by vm.filteredRooms.observeAsState(emptyList())
 
     RoomJoinDialog(true) {  }
 
@@ -69,21 +72,21 @@ fun HomeScreen(navController: NavHostController, vm: HomeScreenViewModel = viewM
                 .background(backgroundWhite)
                 .padding(paddingValues)
         ) {
-            SearchBar()
+            SearchBar(
+                value = searchQuery,
+                onValueChange = { vm.onSearchQueryChanged(it) }
+            )
 
-            if (roomsState.value?.isEmpty() == true) {
+            if (filteredRooms.isEmpty()) {
                 EmptyListPlaceHolder(modifier = Modifier.weight(1f))
             } else {
-                roomsState.value?.let {
-                    RoomList(
-                        rooms = it,
-                        onRoomClick = { habitId ->
-
-                            // navController.navigate(NavDestination.A.createRoute(habitId))
-                        },
-                        modifier = Modifier.weight(1f)
-                    )
-                }
+                RoomList(
+                    rooms = filteredRooms,
+                    onRoomClick = { roomId ->
+                        // Обработка клика по комнате
+                    },
+                    modifier = Modifier.weight(1f)
+                )
             }
         }
     }

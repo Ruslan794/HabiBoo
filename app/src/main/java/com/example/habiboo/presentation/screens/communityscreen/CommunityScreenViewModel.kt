@@ -1,4 +1,4 @@
-package com.example.habiboo.presentation.screens.homescreen
+package com.example.habiboo.presentation.screens.communityscreen
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -11,14 +11,15 @@ import com.example.habiboo.domain.model.Habit
 import com.example.habiboo.domain.model.NotificationSettings
 import com.example.habiboo.domain.model.Task
 import com.example.habiboo.domain.use_case.get_all_rooms.GetAllRoomsUseCase
+import com.example.habiboo.domain.use_case.get_all_rooms.GetMyRoomsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeScreenViewModel @Inject constructor(
-    private val getAllRoomsUseCase: GetAllRoomsUseCase
+class CommunityScreenViewModel @Inject constructor(
+    private val getMyRoomsUseCase: GetMyRoomsUseCase
 ) : ViewModel() {
 
     private val _rooms = MutableLiveData<List<Room>>()
@@ -37,7 +38,7 @@ class HomeScreenViewModel @Inject constructor(
     private fun fetchRooms(page: Int = 1, pageSize: Int = 10) {
         viewModelScope.launch {
             // Ваш существующий код для загрузки комнат
-            val response = getAllRoomsUseCase.execute()
+            val response = getMyRoomsUseCase.execute()
             if (response.isSuccessful) {
                 val topRoomsResponse = response.body()
                 if (topRoomsResponse != null) {

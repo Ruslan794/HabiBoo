@@ -33,8 +33,8 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.habiboo.R
+import com.example.habiboo.data.network.model.room.Room
 import com.example.habiboo.domain.model.Habit
-import com.example.habiboo.domain.model.Room
 import com.example.habiboo.presentation.theme.PrimaryTextDark
 import com.example.habiboo.presentation.theme.mainPurple
 import com.example.habiboo.presentation.theme.mainTextStyleMin
@@ -119,7 +119,7 @@ fun RoomCard(room: Room, onRoomClick: (String) -> Unit) {
 
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data("http://40.67.243.239/uploads/wood_background_fef613d6ba.jpg")
+                    .data(room.image)
                     //    .data(room.imageUrl)
                     .crossfade(true)
                     .build(),
