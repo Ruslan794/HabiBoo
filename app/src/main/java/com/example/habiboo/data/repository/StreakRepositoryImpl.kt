@@ -4,7 +4,7 @@ import com.example.habiboo.data.network.model.streak.CreateStreakRequest
 import com.example.habiboo.data.network.model.streak.StreakResponse
 import com.example.habiboo.data.network.services.StreakService
 
-class StreakRepository(private val streakService: StreakService) {
+class StreakRepositoryImpl(private val streakService: StreakService) {
 
     // Get user streak by room ID
     suspend fun getUserStreakByRoomId(roomId: String): Result<StreakResponse> {
