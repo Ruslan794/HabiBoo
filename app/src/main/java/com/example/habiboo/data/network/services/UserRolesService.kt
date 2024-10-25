@@ -17,57 +17,57 @@ import retrofit2.http.*
 
 interface UserRolesService {
 
-    // Get default generated permissions
-    @GET("users-permissions/permissions")
-    suspend fun getPermissions(): Response<PermissionsTreeResponse>
+ //  // Get default generated permissions
+ //  @GET("users-permissions/permissions")
+ //  suspend fun getPermissions(): Response<PermissionsTreeResponse>
 
-    // List roles
-    @GET("users-permissions/roles")
-    suspend fun listRoles(): Response<RoleResponse>
+ //  // List roles
+ //  @GET("users-permissions/roles")
+ //  suspend fun listRoles(): Response<RoleResponse>
 
-    @POST("users-permissions/roles")
-    suspend fun createRole(@Body roleRequest: CreateRoleRequest): Response<CreateRoleResponse>
+ //  @POST("users-permissions/roles")
+ //  suspend fun createRole(@Body roleRequest: CreateRoleRequest): Response<CreateRoleResponse>
 
-    @GET("users-permissions/roles/{id}")
-    suspend fun getRole(@Path("id") roleId: String): Response<RoleResponse>
-
-
-    @PUT("users-permissions/roles/{role}")
-    suspend fun updateRole(
-        @Path("role") roleId: String,
-        @Body updateRoleRequest: UpdateRoleRequest
-    ): Response<UpdateRoleResponse>
-
-    // Delete a role
-    @DELETE("users-permissions/roles/{role}")
-    suspend fun deleteRole(@Path("role") roleId: String): Response<DeleteRoleResponse>
+ //  @GET("users-permissions/roles/{id}")
+ //  suspend fun getRole(@Path("id") roleId: String): Response<RoleResponse>
 
 
-    // Get list of users
-    @GET("users")
-    suspend fun getUsers(): Response<List<User>>
+ //  @PUT("users-permissions/roles/{role}")
+ //  suspend fun updateRole(
+ //      @Path("role") roleId: String,
+ //      @Body updateRoleRequest: UpdateRoleRequest
+ //  ): Response<UpdateRoleResponse>
 
-    // Create a new user
-    @POST("users")
-    suspend fun createUser(@Body createUserRequest: CreateUserRequest): Response<UserResponse>
+ //  // Delete a role
+ //  @DELETE("users-permissions/roles/{role}")
+ //  suspend fun deleteRole(@Path("role") roleId: String): Response<DeleteRoleResponse>
 
-    // Get a specific user
-    @GET("users/{id}")
-    suspend fun getUser(@Path("id") id: String): Response<UserResponse>
 
-    // Update a user
-    @PUT("users/{id}")
-    suspend fun updateUser(@Path("id") id: String, @Body userRequest: UserRequest): Response<UserResponse>
+ //  // Get list of users
+ //  @GET("users")
+ //  suspend fun getUsers(): Response<List<User>>
 
-    // Delete a user
-    @DELETE("users/{id}")
-    suspend fun deleteUser(@Path("id") id: String): Response<Unit>
+ //  // Create a new user
+ //  @POST("users")
+ //  suspend fun createUser(@Body createUserRequest: CreateUserRequest): Response<UserResponse>
 
-    // Get authenticated user info
-    @GET("users/me")
-    suspend fun getAuthenticatedUser(): Response<UserResponse>
+ //  // Get a specific user
+ //  @GET("users/{id}")
+ //  suspend fun getUser(@Path("id") id: String): Response<UserResponse>
 
-    // Get user count
-    @GET("users/count")
-    suspend fun getUserCount(): Response<Int>
+ //  // Update a user
+ //  @PUT("users/{id}")
+ //  suspend fun updateUser(@Path("id") id: String, @Body userRequest: UserRequest): Response<UserResponse>
+
+ //  // Delete a user
+ //  @DELETE("users/{id}")
+ //  suspend fun deleteUser(@Path("id") id: String): Response<Unit>
+
+ //  // Get authenticated user info
+ //  @GET("users/me")
+ //  suspend fun getAuthenticatedUser(): Response<UserResponse>
+
+ //  // Get user count
+ //  @GET("users/count")
+ //  suspend fun getUserCount(): Response<Int>
 }

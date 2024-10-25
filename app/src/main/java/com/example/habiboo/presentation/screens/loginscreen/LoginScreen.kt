@@ -22,6 +22,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -128,7 +129,7 @@ fun LoginScreen(navController: NavHostController, vm: LoginScreenViewModel = hil
                 Button(
                     onClick = { vm.onSingInBtnPress()},
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = mainPurple  // Color of the content, e.g., Text
+                        containerColor = mainPurple
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
