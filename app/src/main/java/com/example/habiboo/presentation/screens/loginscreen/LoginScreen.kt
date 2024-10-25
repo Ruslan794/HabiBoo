@@ -33,21 +33,9 @@ import com.example.habiboo.presentation.theme.mainBlack
 import com.example.habiboo.presentation.theme.mainTextStyleMin
 
 
+
 @Composable
 fun LoginScreen(navController: NavHostController, vm: LoginScreenViewModel = viewModel()) {
-
-    val isLoggedIn = vm.isUserLoggedIn.observeAsState(initial = false)
-
-    SplashScreen()
-
-    if (isLoggedIn.value)
-        navController.navigate(NavDestination.Home.route)
-    else
-        LoginScreenContent(navController, vm)
-}
-
-@Composable
-fun LoginScreenContent(navController: NavHostController, vm: LoginScreenViewModel) {
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.gradient_background),
@@ -109,35 +97,6 @@ fun LoginScreenContent(navController: NavHostController, vm: LoginScreenViewMode
             ) {
                 Text("Sign up")
             }
-        }
-    }
-}
-
-@Composable
-fun SplashScreen() {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(id = R.drawable.gradient_background),
-            contentDescription = "Background Image",
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(32.dp)
-        ) {
-            Text(
-                text = "HabiBoo", style = TextStyle(
-                    fontFamily = SulphurPoint,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 42.sp,
-                    color = mainBlack
-                )
-            )
-
         }
     }
 }

@@ -1,19 +1,18 @@
 package com.example.habiboo.presentation.navigation
 
-import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.habiboo.presentation.screens.addhabitscreen.AddHabitScreen
 import com.example.habiboo.presentation.screens.homescreen.HomeScreen
-import com.example.habiboo.presentation.screens.homescreen.HomeScreenViewModel
 import com.example.habiboo.presentation.screens.loginscreen.LoginScreen
+import com.example.habiboo.presentation.screens.loginscreen.SplashScreen
 
 @Composable
 fun AppNavHost(
     navController: NavHostController,
-    startDestination: String = NavDestination.LogIn.route,
+    startDestination: String = NavDestination.Splash.route,
 ) {
     NavHost(
         navController = navController,
@@ -23,12 +22,15 @@ fun AppNavHost(
             HomeScreen(navController)
         }
 
-        composable(NavDestination.AddHabit.route){
+        composable(NavDestination.AddHabit.route) {
             AddHabitScreen(navController)
         }
 
-        composable(NavDestination.LogIn.route){
+        composable(NavDestination.Login.route) {
             LoginScreen(navController)
+        }
+        composable(NavDestination.Splash.route) {
+            SplashScreen(navController)
         }
     }
 }

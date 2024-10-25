@@ -7,12 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.habiboo.domain.repository.AuthRepository
 import com.example.habiboo.domain.use_case.get_token.GetTokenUseCase
 import com.example.habiboo.domain.use_case.save_token.SaveTokenUseCase
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LoginScreenViewModel(
-    private val authRepository: AuthRepository,
-    private val saveTokenUseCase: SaveTokenUseCase,
-    private val getTokenUseCase: GetTokenUseCase
 ) : ViewModel() {
 
     // LiveData для управления состоянием загрузки
@@ -31,34 +29,42 @@ class LoginScreenViewModel(
     private val _isUserLoggedIn = MutableLiveData<Boolean>()
     val isUserLoggedIn: LiveData<Boolean> get() = _isUserLoggedIn
 
-    // Функция для выполнения входа
-    fun login(email: String, password: String) {
-        _loading.value = true
-        _error.value = null
+ //  // Функция для выполнения входа
+ //  fun login(email: String, password: String) {
+ //      _loading.value = true
+ //      _error.value = null
 
-        viewModelScope.launch {
-            val result = authRepository.signIn(email, password)
-            _loading.value = false
+ //      viewModelScope.launch {
+ //          val result = authRepository.signIn(email, password)
+ //          _loading.value = false
 
-            if (result.isSuccess) {
-                val jwtToken = result.getOrNull()
-                if (jwtToken != null) {
-                    // Сохраняем токен
-                    saveTokenUseCase(jwtToken.toString())
-                    _loginSuccess.value = true
-                }
-            } else {
-                _error.value = result.exceptionOrNull()?.message ?: "Unknown error"
-                _loginSuccess.value = false
-            }
-        }
+ //          if (result.isSuccess) {
+ //              val jwtToken = result.getOrNull()
+ //              if (jwtToken != null) {
+ //                  // Сохраняем токен
+ //                  saveTokenUseCase(jwtToken.toString())
+ //                  _loginSuccess.value = true
+ //              }
+ //          } else {
+ //              _error.value = result.exceptionOrNull()?.message ?: "Unknown error"
+ //              _loginSuccess.value = false
+ //          }
+ //      }
+ //  }
+
+    init {
+        checkIfUserIsLoggedIn()
     }
 
     // Функция для проверки, авторизован ли пользователь
     fun checkIfUserIsLoggedIn() {
         viewModelScope.launch {
-            val token = getTokenUseCase()
-            _isUserLoggedIn.value = token != null // true, если токен есть
+           // val token = getTokenUseCase()
+           // _isUserLoggedIn.value = token != null // true, если токен есть
+
+                delay(2000)
+                _isUserLoggedIn.value = false
+
         }
     }
 
