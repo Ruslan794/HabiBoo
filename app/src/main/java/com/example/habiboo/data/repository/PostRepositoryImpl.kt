@@ -6,7 +6,7 @@ import com.example.habiboo.data.network.model.post.PostResponse
 import com.example.habiboo.data.network.services.PostService
 import retrofit2.Response
 
-class PostRepository(private val postService: PostService) {
+class PostRepositoryImpl(private val postService: PostService) {
 
     // Method to fetch posts with optional filters
     suspend fun getPosts(
