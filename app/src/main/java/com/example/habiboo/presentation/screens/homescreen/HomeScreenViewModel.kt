@@ -6,13 +6,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.habiboo.domain.model.Habit
 import com.example.habiboo.domain.model.NotificationSettings
+import com.example.habiboo.domain.model.Room
+import com.example.habiboo.domain.model.Task
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
 class HomeScreenViewModel : ViewModel() {
 
-    private val _habits = MutableLiveData<List<Habit>>()
-    val habits: LiveData<List<Habit>> get() = _habits
+    private val _rooms = MutableLiveData<List<Room>>()
+    val rooms: LiveData<List<Room>> get() = _rooms
 
     init {
         updateHabitsList()
@@ -22,10 +24,44 @@ class HomeScreenViewModel : ViewModel() {
         viewModelScope.launch {
             // _habits.value = emptyList()
             // delay(2000)
-            _habits.value = habitsSample
+            _rooms.value = generateSampleRooms()
         }
     }
+
+
+
+    fun generateSampleRooms(): List<Room> {
+        val rooms = mutableListOf<Room>()
+        for (i in 1..10) {
+            rooms.add(
+                Room(
+                    id = "room$i",
+                    name = "Room $i",
+                    description = "Description of Room $i with detailed info.",
+                    maxMembers = 10 + i,  // Example variation
+                    currentMembers = 1 + i,  // Increment to show variety
+                    isPrivate = i % 2 == 0,  // Alternate between private and public
+                    imageUrl = if (i % 3 == 0) "http://example.com/image$i.jpg" else null,  // Some have images, some don't
+                    tasks = listOf(
+                        Task(id = "task${i}1", name = "Task ${i}1", description = "Task ${i}1 description", isCompleted = false),
+                        Task(id = "task${i}2", name = "Task ${i}2", description = "Task ${i}2 description", isCompleted = true)
+                    )
+                )
+            )
+        }
+        return rooms
+    }
+
+
 }
+
+
+
+
+
+
+
+
 
 
 val habitsSample = listOf(

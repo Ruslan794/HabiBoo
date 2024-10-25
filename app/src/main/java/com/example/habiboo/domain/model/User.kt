@@ -1,5 +1,10 @@
 package com.example.habiboo.domain.model
 
+data class AuthResponse(
+    val jwt: String,
+    val user: User
+)
+
 data class User(
     val blocked: Boolean,
     val confirmed: Boolean,
