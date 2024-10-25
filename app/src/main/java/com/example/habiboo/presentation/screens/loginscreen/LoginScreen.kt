@@ -34,7 +34,6 @@ import com.example.habiboo.presentation.navigation.NavDestination
 import com.example.habiboo.presentation.theme.SulphurPoint
 import com.example.habiboo.presentation.theme.mainBlack
 import com.example.habiboo.presentation.theme.mainPurple
-import com.example.habiboo.presentation.theme.mainRose
 import com.example.habiboo.presentation.theme.mainTextStyleMin
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.habiboo.presentation.theme.backgroundWhite
