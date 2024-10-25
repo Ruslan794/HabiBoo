@@ -1,5 +1,6 @@
 package com.example.habiboo.presentation.screens.homescreen
 
+import RoomJoinDialog
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,6 +29,7 @@ import androidx.navigation.NavHostController
 import com.example.habiboo.common.RoomCard
 import com.example.habiboo.common.SearchBar
 import com.example.habiboo.domain.model.Room
+import com.example.habiboo.domain.model.Task
 import com.example.habiboo.presentation.navigation.BottomNavigationBar
 import com.example.habiboo.presentation.theme.backgroundWhite
 
@@ -36,6 +38,9 @@ import com.example.habiboo.presentation.theme.backgroundWhite
 fun HomeScreen(navController: NavHostController, vm: HomeScreenViewModel = viewModel()) {
 
     val roomsState = vm.rooms.observeAsState()
+
+    RoomJoinDialog(true) {  }
+
 
     Scaffold(
         topBar = {
@@ -73,6 +78,7 @@ fun HomeScreen(navController: NavHostController, vm: HomeScreenViewModel = viewM
                     RoomList(
                         rooms = it,
                         onRoomClick = { habitId ->
+
                             // navController.navigate(NavDestination.A.createRoute(habitId))
                         },
                         modifier = Modifier.weight(1f)

@@ -6,7 +6,7 @@ data class RoomResponseAttributes(
     val users: RelatedData<UserData>?,
     val posts: RelatedData<PostData>?,
     val streaks: RelatedData<StreakData>?,
-    val room_setting: RelatedData<RoomSettingData>?,
+ //   val room_setting: RelatedData<RoomSettingData>?,
     val image: RelatedData<ImageData>?,
     val createdAt: String?,
     val updatedAt: String?
