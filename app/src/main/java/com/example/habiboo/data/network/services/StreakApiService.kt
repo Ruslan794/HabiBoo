@@ -1,5 +1,7 @@
 package com.example.habiboo.data.network.services
 
+import com.example.habiboo.data.network.model.streak.CreateStreakRequest
+import com.example.habiboo.data.network.model.streak.StreakResponse
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -11,11 +13,21 @@ interface StreakService {
     ): Response<StreakResponse>
 
     @GET("/streaks")
-    suspend fun getAllStreaks(): Response<List<StreakResponse>>
+    suspend fun getAllStreaks(
+        @Query("sort") sort: String? = null,
+        @Query("pagination[withCount]") withCount: Boolean? = true,
+        @Query("pagination[page]") page: Int? = 0,
+        @Query("pagination[pageSize]") pageSize: Int? = 25,
+        @Query("pagination[start]") start: Int? = 0,
+        @Query("pagination[limit]") limit: Int? = 25,
+        @Query("fields") fields: String? = null,
+        @Query("populate") populate: String? = null,
+        @Query("filters") filters: String? = null
+    ): Response<StreakResponse>
 
     @POST("/streaks")
     suspend fun createStreak(
-        @Body streakRequest: StreakRequest
+        @Body request: CreateStreakRequest
     ): Response<StreakResponse>
 
     @GET("/streaks/{id}")
@@ -25,12 +37,13 @@ interface StreakService {
 
     @PUT("/streaks/{id}")
     suspend fun updateStreak(
-        @Path("id") streakId: String,
-        @Body streakRequest: StreakRequest
+        @Path("id") streakId: Int,
+        @Body request: CreateStreakRequest
     ): Response<StreakResponse>
+
 
     @DELETE("/streaks/{id}")
     suspend fun deleteStreak(
-        @Path("id") streakId: String
+    @Path("id") streakId: Int
     ): Response<Unit>
 }
