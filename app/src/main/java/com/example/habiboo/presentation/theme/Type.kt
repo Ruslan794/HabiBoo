@@ -22,6 +22,11 @@ val SulphurPoint = FontFamily(
     Font(R.font.sulphur_point_light, weight = FontWeight.Light)
 )
 
+val mainTextStyleMin = TextStyle(
+    fontFamily = Poppins,
+    fontWeight = FontWeight.Normal
+)
+
 val Typography = Typography(
     bodyLarge = TextStyle(
         fontFamily = Poppins,

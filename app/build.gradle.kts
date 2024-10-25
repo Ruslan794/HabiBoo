@@ -70,6 +70,9 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    implementation ("androidx.compose.material:material:1.3.0")
+    implementation (libs.androidx.navigation.compose.v242 )
+
     val koin_version = "4.0.0"
     implementation("androidx.datastore:datastore-preferences:1.1.1")
     implementation("io.insert-koin:koin-compose:$koin_version")

@@ -40,6 +40,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.habiboo.R
 import com.example.habiboo.domain.model.Habit
+import com.example.habiboo.presentation.navigation.BottomNavigationBar
 import com.example.habiboo.presentation.navigation.NavDestination
 import com.example.habiboo.presentation.theme.PrimaryTextDark
 
@@ -51,7 +52,7 @@ fun HomeScreen(navController: NavHostController, vm: HomeScreenViewModel = viewM
 
     Scaffold(
         topBar = { TopBar() },
-        floatingActionButton = { AddHabitButton(onAddBtnClicked = onAddBtnClicked) },
+        bottomBar = { BottomNavigationBar(navController) },
         content = { padding ->
             Column(
                 modifier = Modifier
