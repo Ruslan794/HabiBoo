@@ -8,7 +8,8 @@ enum class Screen {
     COMMUNITY,
     ROOM,
     COMMENTS,
-    CREATE_ROOM
+    CREATE_ROOM,
+    PROFILE
 }
 
 sealed class NavDestination(val route: String) {
@@ -20,4 +21,5 @@ sealed class NavDestination(val route: String) {
     data object Room: NavDestination(Screen.ROOM.name)
     data object Comments: NavDestination(Screen.COMMENTS.name)
     data object CreateRoom: NavDestination(Screen.CREATE_ROOM.name)
+    data object Profile: NavDestination(Screen.PROFILE.name)
 }
