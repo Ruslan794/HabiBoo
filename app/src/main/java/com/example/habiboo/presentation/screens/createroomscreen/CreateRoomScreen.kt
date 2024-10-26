@@ -29,6 +29,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -75,7 +76,8 @@ fun CreateRoomScreen(navController: NavController) {
                         "Create new room",
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(end = 20.dp),
+                            .padding(end = 20.dp)
+                            .background(backgroundWhite),
                         style = mainTextStyleMin,
                         fontWeight = FontWeight.SemiBold,
                         textAlign = TextAlign.Center,
@@ -92,7 +94,12 @@ fun CreateRoomScreen(navController: NavController) {
                         )
                     }
                 },
-                modifier = Modifier.background(backgroundWhite)
+                modifier = Modifier.background(backgroundWhite),
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.White, // Background color
+                    titleContentColor = Color.Black, // Title color
+                    navigationIconContentColor = Color.Black // Navigation icon color
+                )
             )
         }
     ) { paddingValues ->
@@ -109,6 +116,7 @@ fun CreateRoomScreen(navController: NavController) {
                     .padding(horizontal = 100.dp)
                     .fillMaxWidth()
                     .height(100.dp)
+                    .background(backgroundWhite)
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.no_image),

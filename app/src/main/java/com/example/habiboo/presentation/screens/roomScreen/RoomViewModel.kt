@@ -1,10 +1,9 @@
-package com.example.habiboo.presentation.screens.RoomScreen
+package com.example.habiboo.presentation.screens.roomScreen
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.habiboo.data.network.model.post.Post
 import com.example.habiboo.data.network.model.post.PostData
 import com.example.habiboo.domain.use_case.get_room_posts.GetRoomPostsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
