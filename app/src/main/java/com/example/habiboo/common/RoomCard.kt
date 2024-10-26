@@ -92,7 +92,7 @@ fun RoomCard(room: Room, onRoomClick: (String) -> Unit) {
                     )
 
                     Image(
-                        painter = painterResource(id = if (room.isPrivate) R.drawable.lock_locked else R.drawable.lock_unlocked),
+                        painter = painterResource(id = if (room.close) R.drawable.lock_locked else R.drawable.lock_unlocked),
                         contentDescription = "Background Image",
                         modifier = Modifier
                             .height(20.dp)
@@ -100,7 +100,7 @@ fun RoomCard(room: Room, onRoomClick: (String) -> Unit) {
                         contentScale = ContentScale.Fit
                     )
                     Text(
-                        text = if (room.isPrivate) "Private" else "Public",
+                        text = if (room.close) "Private" else "Public",
                         fontSize = 16.sp,
                         style = mainTextStyleMin,
                         modifier = Modifier.padding(horizontal = 8.dp)

@@ -46,4 +46,10 @@ interface PostService {
         @Path("id") id: Int
     ): Response<PostResponse>
 
+    @GET("room/{roomId}/posts/")
+    suspend fun getRoomPosts(
+        @Path("roomId") roomId: String,
+        @Query("page") page: Int = 1,
+        @Query("pageSize") pageSize: Int = 10
+    ) : Response<PostResponse>
 }

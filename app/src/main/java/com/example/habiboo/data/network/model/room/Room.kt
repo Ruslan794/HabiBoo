@@ -8,7 +8,7 @@ data class Room(
     val description: String?,
     val goal: String,
     val image: String?,
-    val isPrivate: Boolean,
+    val close: Boolean,
     @SerializedName("users")
     val users: Users,
 ){

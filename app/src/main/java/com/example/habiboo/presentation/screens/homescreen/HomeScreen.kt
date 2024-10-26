@@ -35,6 +35,7 @@ import com.example.habiboo.data.network.model.room.Room
 import com.example.habiboo.domain.model.Task
 import com.example.habiboo.presentation.navigation.BottomNavigationBar
 import com.example.habiboo.presentation.theme.backgroundWhite
+import java.net.URLEncoder
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -82,8 +83,9 @@ fun HomeScreen(navController: NavHostController, vm: HomeScreenViewModel = hiltV
             } else {
                 RoomList(
                     rooms = filteredRooms,
-                    onRoomClick = { roomId ->
-                        // Обработка клика по комнате
+                    onRoomClick = { room ->
+                        val encodedRoomName = URLEncoder.encode(room.name, "UTF-8")
+                        navController.navigate("room/${room.id}/$encodedRoomName")
                     },
                     modifier = Modifier.weight(1f)
                 )
@@ -93,7 +95,7 @@ fun HomeScreen(navController: NavHostController, vm: HomeScreenViewModel = hiltV
 }
 
 @Composable
-fun RoomList(rooms: List<Room>, onRoomClick: (String) -> Unit, modifier: Modifier = Modifier) {
+fun RoomList(rooms: List<Room>, onRoomClick: (Room) -> Unit, modifier: Modifier = Modifier) {
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
@@ -101,7 +103,7 @@ fun RoomList(rooms: List<Room>, onRoomClick: (String) -> Unit, modifier: Modifie
             .padding(top = 20.dp)
     ) {
         items(rooms) { room ->
-            RoomCard(room = room, onRoomClick)
+            RoomCard(room = room, onRoomClick = { onRoomClick(room) })
             Spacer(modifier = Modifier.size(15.dp))
         }
     }

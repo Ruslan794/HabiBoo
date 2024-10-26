@@ -6,5 +6,11 @@ data class Post(
     val createdAt: String,
     val updatedAt: String,
     val publishedAt: String,
-    val media: List<String>
+    val media: List<String>,
+    val user: User
+)
+
+data class User(
+    val username: String,
+    val image: String
 )

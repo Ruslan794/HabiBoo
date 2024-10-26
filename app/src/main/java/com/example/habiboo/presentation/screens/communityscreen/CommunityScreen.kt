@@ -1,5 +1,6 @@
 package com.example.habiboo.presentation.screens.communityscreen
 
+import RoomJoinDialog
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,6 +21,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,18 +32,40 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.habiboo.common.RoomCard
 import com.example.habiboo.common.SearchBar
+import com.example.habiboo.data.network.model.room.Room
 import com.example.habiboo.presentation.navigation.BottomNavigationBar
 import com.example.habiboo.presentation.screens.homescreen.HomeScreenViewModel
 import com.example.habiboo.presentation.theme.backgroundWhite
+import java.net.URLEncoder
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CommunityScreen(navController: NavHostController, vm: CommunityScreenViewModel = hiltViewModel()) {
-
-    val roomsState = vm.rooms.observeAsState()
+fun CommunityScreen(
+    navController: NavHostController,
+    vm: CommunityScreenViewModel = hiltViewModel()
+) {
+    val roomsState by vm.rooms.observeAsState()
     val searchQuery by vm.searchQuery.observeAsState("")
     val filteredRooms by vm.filteredRooms.observeAsState(emptyList())
 
+    // Состояние для управления диалогом
+    var showDialog by remember { mutableStateOf(false) }
+    var selectedRoom by remember { mutableStateOf<Room?>(null) }
+
+    // Отображаем диалог, если showDialog == true и selectedRoom не null
+    if (showDialog && selectedRoom != null) {
+        RoomJoinDialog(
+            showDialog = showDialog,
+            room = selectedRoom!!,
+            onClose = { showDialog = false },
+            onJoinClick = { password ->
+                vm.joinRoom(selectedRoom!!.id, password)
+                showDialog = false
+                val encodedRoomName = URLEncoder.encode(selectedRoom!!.name, "UTF-8")
+                navController.navigate("room/${selectedRoom!!.id}/$encodedRoomName")
+            }
+        )
+    }
 
     Scaffold(
         topBar = {
@@ -74,16 +100,13 @@ fun CommunityScreen(navController: NavHostController, vm: CommunityScreenViewMod
             )
 
             if (filteredRooms.isEmpty()) {
-                EmptyListPlaceHolder(
-                    modifier = Modifier.weight(
-                        1f
-                    )
-                )
+                EmptyListPlaceHolder(modifier = Modifier.weight(1f))
             } else {
-                com.example.habiboo.presentation.screens.homescreen.RoomList(
+                RoomList(
                     rooms = filteredRooms,
-                    onRoomClick = { roomId ->
-                        // Обработка клика по комнате
+                    onRoomClick = { room ->
+                        selectedRoom = room
+                        showDialog = true
                     },
                     modifier = Modifier.weight(1f)
                 )
@@ -93,7 +116,11 @@ fun CommunityScreen(navController: NavHostController, vm: CommunityScreenViewMod
 }
 
 @Composable
-fun RoomList(rooms: List<com.example.habiboo.data.network.model.room.Room>, onRoomClick: (String) -> Unit, modifier: Modifier = Modifier) {
+fun RoomList(
+    rooms: List<Room>,
+    onRoomClick: (Room) -> Unit,
+    modifier: Modifier = Modifier
+) {
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
@@ -101,7 +128,10 @@ fun RoomList(rooms: List<com.example.habiboo.data.network.model.room.Room>, onRo
             .padding(top = 20.dp)
     ) {
         items(rooms) { room ->
-            RoomCard(room = room, onRoomClick)
+            RoomCard(
+                room = room,
+                onRoomClick = { onRoomClick(room) } // Передаем объект комнаты
+            )
             Spacer(modifier = Modifier.size(15.dp))
         }
     }

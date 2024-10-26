@@ -21,6 +21,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,12 +37,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.habiboo.R
+import com.example.habiboo.data.network.model.room.Room
 import com.example.habiboo.presentation.theme.mainPurple
 import com.example.habiboo.presentation.theme.mainTextStyleMin
 
 @Composable
-fun RoomJoinDialog(showDialog: Boolean, onClose: () -> Unit) {
-
+fun RoomJoinDialog(
+    showDialog: Boolean,
+    room: Room,
+    onClose: () -> Unit,
+    onJoinClick: (String) -> Unit
+) {
     val fontSize = 15.sp
 
     if (showDialog) {
@@ -53,11 +62,10 @@ fun RoomJoinDialog(showDialog: Boolean, onClose: () -> Unit) {
                             .fillMaxWidth()
                             .padding(18.dp)
                     ) {
-                        Spacer(modifier = Modifier.height(36.dp)) // Spacer to make room for the close button
+                        Spacer(modifier = Modifier.height(36.dp))
 
                         Text(
-                            text = "Sports training",
-
+                            text = room.name,
                             modifier = Modifier.fillMaxWidth(),
                             fontSize = 28.sp,
                             style = mainTextStyleMin,
@@ -76,19 +84,18 @@ fun RoomJoinDialog(showDialog: Boolean, onClose: () -> Unit) {
                             color = mainPurple,
                         )
 
-
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             Image(
                                 painter = painterResource(R.drawable.goal_icon),
-                                contentDescription = "Bottom navigation Image",
+                                contentDescription = "Goal icon",
                                 modifier = Modifier.size(22.dp),
                             )
                             Spacer(Modifier.width(12.dp))
                             Text(
-                                text = "Strength training and endurance building",
+                                text = room.goal ?: "No goal specified",
                                 style = mainTextStyleMin,
                                 fontSize = fontSize,
                                 modifier = Modifier.padding(top = 8.dp)
@@ -105,10 +112,7 @@ fun RoomJoinDialog(showDialog: Boolean, onClose: () -> Unit) {
                         )
 
                         Text(
-                            text = "Join us for daily workouts that focus on building strength, endurance," +
-                                    " and flexibility. This room is perfect for all fitness levels. " +
-                                    "Track your progress, share results, and stay motivated with a " +
-                                    "supportive community!",
+                            text = room.description ?: "No description provided.",
                             fontSize = fontSize,
                             style = mainTextStyleMin,
                             modifier = Modifier.padding(top = 8.dp)
@@ -122,12 +126,12 @@ fun RoomJoinDialog(showDialog: Boolean, onClose: () -> Unit) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Image(
                                     painter = painterResource(R.drawable.community_icon),
-                                    contentDescription = "",
+                                    contentDescription = "Community icon",
                                     modifier = Modifier.size(32.dp),
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text(
-                                    text = "12",
+                                    text = room.currentMembers.toString(),
                                     fontSize = 16.sp,
                                     style = mainTextStyleMin,
                                     modifier = Modifier.align(Alignment.CenterVertically)
@@ -137,14 +141,19 @@ fun RoomJoinDialog(showDialog: Boolean, onClose: () -> Unit) {
                             Spacer(modifier = Modifier.width(86.dp))
 
                             Row(verticalAlignment = Alignment.CenterVertically) {
+                                val lockIcon = if (room.close) {
+                                    R.drawable.lock_locked
+                                } else {
+                                    R.drawable.lock_unlocked
+                                }
                                 Image(
-                                    painter = painterResource(R.drawable.lock_locked),
-                                    contentDescription = "",
+                                    painter = painterResource(lockIcon),
+                                    contentDescription = "Lock icon",
                                     modifier = Modifier.size(32.dp),
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text(
-                                    text = "Private",
+                                    text = if (room.close) "Private" else "Public",
                                     fontSize = 16.sp,
                                     style = mainTextStyleMin,
                                     modifier = Modifier.align(Alignment.CenterVertically)
@@ -152,22 +161,23 @@ fun RoomJoinDialog(showDialog: Boolean, onClose: () -> Unit) {
                             }
                         }
 
-
-                        val isPrivate = false
-                        if (isPrivate){
-
+                        // Поле для ввода пароля, если комната приватная
+                        var password by remember { mutableStateOf("") }
+                        if (room.close) {
                             OutlinedTextField(
-                                value = "",
-                                onValueChange = {
-                                   ""
-                                },
+                                value = password,
+                                onValueChange = { password = it },
                                 label = { Text("Enter password", style = mainTextStyleMin) },
-                                modifier = Modifier.fillMaxWidth().padding(top=16.dp).padding(horizontal = 16.dp)
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 16.dp)
                             )
                         }
 
                         Button(
-                            onClick = onClose,
+                            onClick = {
+                                onJoinClick(password)
+                            },
                             colors = ButtonDefaults.buttonColors(
                                 backgroundColor = mainPurple,
                                 contentColor = Color.White
@@ -176,8 +186,7 @@ fun RoomJoinDialog(showDialog: Boolean, onClose: () -> Unit) {
                                 .align(Alignment.CenterHorizontally)
                                 .padding(top = 28.dp)
                                 .clip(RoundedCornerShape(15.dp)),
-
-                            ) {
+                        ) {
                             Text(
                                 "JOIN",
                                 style = mainTextStyleMin,

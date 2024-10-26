@@ -1,5 +1,6 @@
 package com.example.habiboo.data.network.services
 
+import com.example.habiboo.data.network.model.post.PostResponse
 import com.example.habiboo.data.network.model.room.CreateRoomRequest
 import com.example.habiboo.data.network.model.room.CreateRoomResponse
 import com.example.habiboo.data.network.model.room.EnterRoomRequest
@@ -25,8 +26,8 @@ import retrofit2.http.Query
 
 interface RoomsApiService {
 
-    @POST("/enterRoom")
-    fun enterRoom(@Body request: EnterRoomRequest): Call<EnterRoomResponse>
+    @POST("rooms/enter")
+    suspend fun joinRoom(@Body request: EnterRoomRequest): Response<Void>
 
 
     @POST("/leaveRoom")
@@ -83,4 +84,11 @@ interface RoomsApiService {
         @Path("id") id: Int
     ): Call<Void> // Use Void because the successful response is an empty body
 
+
+    @GET("room/{roomId}/posts/")
+    suspend fun getRoomPosts(
+        @Path("roomId") roomId: String,
+        @Query("page") page: Int = 1,
+        @Query("pageSize") pageSize: Int = 10
+    ) : Response<PostResponse>
 }

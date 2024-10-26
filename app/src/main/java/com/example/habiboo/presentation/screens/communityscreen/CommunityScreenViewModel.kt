@@ -12,6 +12,7 @@ import com.example.habiboo.domain.model.NotificationSettings
 import com.example.habiboo.domain.model.Task
 import com.example.habiboo.domain.use_case.get_all_rooms.GetAllRoomsUseCase
 import com.example.habiboo.domain.use_case.get_all_rooms.GetMyRoomsUseCase
+import com.example.habiboo.domain.use_case.join_room.JoinRoomUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
@@ -19,7 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CommunityScreenViewModel @Inject constructor(
-    private val getMyRoomsUseCase: GetMyRoomsUseCase
+    private val getMyRoomsUseCase: GetMyRoomsUseCase,
+    private val joinRoomUseCase: JoinRoomUseCase
 ) : ViewModel() {
 
     private val _rooms = MutableLiveData<List<Room>>()
@@ -67,16 +69,26 @@ class CommunityScreenViewModel @Inject constructor(
             }
         }
     }
+
+    fun joinRoom(roomId: String, password: String?) {
+        viewModelScope.launch {
+            try {
+                val response = joinRoomUseCase.execute(roomId, password)
+                if (response.isSuccessful) {
+                    // Успешно присоединились к комнате
+                    // Обновите состояние или выполните нужные действия
+                } else {
+                    // Обработка ошибки
+                    val errorBody = response.errorBody()?.string()
+                    Log.e("CommunityScreenViewModel", "Error joining room: $errorBody")
+                }
+            } catch (e: Exception) {
+                Log.e("CommunityScreenViewModel", "Exception: ${e.message}")
+                // Обработка исключения
+            }
+        }
+    }
 }
-
-
-
-
-
-
-
-
-
 
 
 val habitsSample = listOf(

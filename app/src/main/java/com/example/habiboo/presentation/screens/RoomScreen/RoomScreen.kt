@@ -30,6 +30,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,11 +44,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.habiboo.R
 import com.example.habiboo.common.EmptyListPlaceHolder
+import com.example.habiboo.data.network.model.post.PostData
 import com.example.habiboo.domain.model.Room
 import com.example.habiboo.domain.model.Task
 import com.example.habiboo.presentation.navigation.BottomNavigationBar
@@ -55,7 +60,18 @@ import com.example.habiboo.presentation.theme.mainTextStyleMin
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RoomScreen(navController: NavController) {
+fun RoomScreen(
+    navController: NavController,
+    roomId: String,
+    roomName: String,
+    viewModel: RoomViewModel = hiltViewModel()
+) {
+
+    LaunchedEffect(key1 = roomId) {
+        viewModel.fetchRoomPosts(roomId)
+    }
+
+    val posts by viewModel.posts.observeAsState(emptyList())
 
     var room = Room(
         id = "room1",
@@ -86,7 +102,7 @@ fun RoomScreen(navController: NavController) {
             TopAppBar(
                 title = {
                     Text(
-                        "Weight Warriors",
+                        roomName,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(end = 20.dp),
@@ -161,22 +177,18 @@ fun RoomScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(16.dp))
             WeekDaysRow()
 
-            if (testList.isEmpty()) {
+            if (posts.isEmpty()) {
                 EmptyListPlaceHolder(modifier = Modifier.weight(1f))
             } else {
-                testList.let {
-
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(horizontal = 20.dp)
-                            .padding(top = 20.dp)
-                    ) {
-                        items(testList) { post ->
-                            // TODO() : Add as parameters object of Post class and onClick lamda
-                            PostCard()
-                            Spacer(modifier = Modifier.size(15.dp))
-                        }
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 20.dp)
+                        .padding(top = 20.dp)
+                ) {
+                    items(posts) { post ->
+                        PostCard(post = post)
+                        Spacer(modifier = Modifier.size(15.dp))
                     }
                 }
             }
@@ -185,7 +197,7 @@ fun RoomScreen(navController: NavController) {
 }
 
 @Composable
-fun PostCard() {
+fun PostCard(post: PostData) {
     Card(
         shape = RoundedCornerShape(16.dp),
         elevation = 4.dp,
@@ -205,7 +217,7 @@ fun PostCard() {
 
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data("http://40.67.243.239/uploads/coin_41b97a9b89.png")
+                        .data(post.user.image)
                         //    .data(room.imageUrl)
                         .crossfade(true)
                         .build(),
@@ -216,7 +228,7 @@ fun PostCard() {
                 )
                 Spacer(Modifier.width(16.dp))
                 Text(
-                    "Peter Parker",
+                    post.user.username,
                     fontWeight = FontWeight.SemiBold,
                     style = mainTextStyleMin,
                     fontSize = 16.sp
@@ -232,7 +244,7 @@ fun PostCard() {
 
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data("http://40.67.243.239/uploads/Main_After_6488a7899c.jpg")
+                    .data(post.media.firstOrNull() ?: R.drawable.login_screen_image)
                     //    .data(room.imageUrl)
                     .crossfade(true)
                     .build(),
@@ -247,7 +259,7 @@ fun PostCard() {
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                "Hello, guys! Finished my workout this morning!",
+                post.content,
                 style = mainTextStyleMin,
                 fontSize = 15.sp
             )
@@ -267,37 +279,41 @@ fun PostCard() {
                     contentScale = ContentScale.Fit
                 )
                 Text(
-                    "10",
+                    post.comments.toString(),
                     fontSize = 14.sp,
                     modifier = Modifier.padding(start = 4.dp),
                     style = mainTextStyleMin
                 )
                 Spacer(Modifier.weight(10f))
-                Image(
-                    painter = painterResource(id = R.drawable.heart_break_icon),
-                    contentDescription = "",
-                    modifier = Modifier.size(25.dp),
-                    contentScale = ContentScale.Fit
-                )
-                Text(
-                    "4",
-                    fontSize = 14.sp,
-                    modifier = Modifier.padding(start = 4.dp),
-                    style = mainTextStyleMin
-                )
-                Spacer(Modifier.weight(1f))
-                Image(
-                    painter = painterResource(id = R.drawable.heart_icon),
-                    contentDescription = "",
-                    modifier = Modifier.size(25.dp),
-                    contentScale = ContentScale.Fit
-                )
-                Text(
-                    "4",
-                    fontSize = 14.sp,
-                    modifier = Modifier.padding(start = 4.dp),
-                    style = mainTextStyleMin
-                )
+                if (post.report != null) {
+
+                    Image(
+                        painter = painterResource(id = R.drawable.heart_break_icon),
+                        contentDescription = "",
+                        modifier = Modifier.size(25.dp),
+                        contentScale = ContentScale.Fit
+                    )
+                    Text(
+                        post.report.dislike?.toString() ?: "0",
+                        fontSize = 14.sp,
+                        modifier = Modifier.padding(start = 4.dp),
+                        style = mainTextStyleMin
+                    )
+                    Spacer(Modifier.weight(1f))
+                    Image(
+                        painter = painterResource(id = R.drawable.heart_icon),
+                        contentDescription = "",
+                        modifier = Modifier.size(25.dp),
+                        contentScale = ContentScale.Fit
+                    )
+                    Text(
+                        post.report.like?.toString() ?: "0",
+                        fontSize = 14.sp,
+                        modifier = Modifier.padding(start = 4.dp),
+                        style = mainTextStyleMin
+                    )
+                }
+
             }
         }
     }
@@ -306,8 +322,8 @@ fun PostCard() {
 @Composable
 fun WeekDaysRow() {
 
-    val days = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
-    val dates = listOf(12, 13, 14, 15, 16, 17, 18)
+    val days = listOf("Thu", "Fri", "Sat", "Sun", "Mon", "Tue", "Wed")
+    val dates = listOf(24, 25, 26, 27, 28, 29, 30)
 
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -316,17 +332,20 @@ fun WeekDaysRow() {
             .padding(horizontal = 16.dp)
     ) {
         items(days.zip(dates)) { (day, date) ->
-            DayButton(day, date)
+            DayButton(day, date, isHighlighted = date == 26)
         }
     }
 }
 
 @Composable
-fun DayButton(day: String, date: Int) {
+fun DayButton(day: String, date: Int, isHighlighted: Boolean = false) {
+    val backgroundColor = if (isHighlighted) mainPurple else Color.White
+    val textColor = if (isHighlighted) Color.White else mainPurple
+
     Card(
         shape = RoundedCornerShape(12.dp),
         elevation = 10.dp,
-        backgroundColor = Color.White,
+        backgroundColor = backgroundColor,
         modifier = Modifier
             .clickable { /* Handle click here */ }
             .width(70.dp)
@@ -337,14 +356,14 @@ fun DayButton(day: String, date: Int) {
         ) {
             Text(
                 text = day,
-                color = mainPurple,
+                color = textColor,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = "$date",
-                color = mainPurple,
+                color = textColor,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold
             )

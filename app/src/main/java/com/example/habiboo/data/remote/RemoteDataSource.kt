@@ -1,5 +1,7 @@
 package com.example.habiboo.data.remote
 
+import com.example.habiboo.data.network.model.post.PostResponse
+import com.example.habiboo.data.network.model.room.EnterRoomRequest
 import com.example.habiboo.data.network.model.room.TopRoomsResponse
 import com.example.habiboo.data.network.model.userAuth.LoginRequest
 import com.example.habiboo.data.network.services.RoomsApiService
@@ -51,5 +53,14 @@ class RemoteDataSource @Inject constructor(
             page = page,
             pageSize = pageSize
         )
+    }
+
+    suspend fun joinRoom(roomId: String, password: String?): Response<Void> {
+        val request = EnterRoomRequest(roomId.toInt(), password.toString())
+        return roomsApiService.joinRoom(request)
+    }
+
+    suspend fun getRoomPosts(roomId: String, page: Int = 1, pageSize: Int = 10): Response<PostResponse> {
+        return roomsApiService.getRoomPosts(roomId, page, pageSize)
     }
 }

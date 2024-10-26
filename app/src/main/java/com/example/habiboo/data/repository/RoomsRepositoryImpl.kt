@@ -1,6 +1,7 @@
 package com.example.habiboo.data.repository
 
 import android.util.Log
+import com.example.habiboo.data.network.model.post.PostResponse
 import com.example.habiboo.data.network.model.room.Room
 import com.example.habiboo.data.network.model.room.TopRoomsResponse
 import com.example.habiboo.data.remote.RemoteDataSource
@@ -24,8 +25,12 @@ class RoomsRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun joinRoom(roomId: String): Result<Unit> {
-        TODO("Not yet implemented")
+    override suspend fun getRoomPosts(roomId: String): Response<PostResponse> {
+        return remoteDataSource.getRoomPosts(roomId)
+    }
+
+    override suspend fun joinRoom(roomId: String, password: String?): Response<Void> {
+        return remoteDataSource.joinRoom(roomId, password)
     }
 
     override fun leaveRoom(roomId: String): Result<Unit> {
