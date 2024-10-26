@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.habiboo.presentation.screens.commentsscreen.CommentsScreen
 import com.example.habiboo.presentation.screens.RoomScreen.RoomScreen
 import com.example.habiboo.presentation.screens.addhabitscreen.AddHabitScreen
 import com.example.habiboo.presentation.screens.communityscreen.CommunityScreen
@@ -39,6 +40,9 @@ fun AppNavHost(
         }
         composable(NavDestination.Room.route) {
             RoomScreen(navController)
+        }
+        composable(NavDestination.Comments.route) {
+            CommentsScreen(navController)
         }
     }
 }
