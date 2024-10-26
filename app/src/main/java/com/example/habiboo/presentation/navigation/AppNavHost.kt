@@ -20,7 +20,7 @@ import java.net.URLDecoder
 @Composable
 fun AppNavHost(
     navController: NavHostController,
-    startDestination: String = NavDestination.Profile.route,
+    startDestination: String = NavDestination.Splash.route,
 ) {
     NavHost(
         navController = navController,
