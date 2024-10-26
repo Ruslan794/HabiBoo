@@ -32,7 +32,7 @@ data class NavigationItem(val route: String, val icon: Int, val title: String)
 val items = listOf(
     NavigationItem(NavDestination.Home.route, R.drawable.home_icon, "Home"),
     NavigationItem(NavDestination.Community.route, R.drawable.comunity_icon, "Explore"),
-    NavigationItem("", R.drawable.new_room_icon, "New room"),
+    NavigationItem(NavDestination.CreateRoom.route, R.drawable.new_room_icon, "New room"),
     NavigationItem("", R.drawable.profile_icon, "Profile")
 )
 
