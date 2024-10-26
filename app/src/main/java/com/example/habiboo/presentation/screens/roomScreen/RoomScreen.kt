@@ -24,6 +24,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
@@ -102,7 +103,7 @@ fun RoomScreen(
                             },
                             modifier = Modifier.align(Alignment.CenterEnd)
                         ) {
-                            Icon(Icons.Filled.MoreVert, contentDescription = "More options", tint = Color.Black)
+                            Icon(Icons.Filled.Close, contentDescription = "More options", tint = Color.Black)
                         }
                     }
 
