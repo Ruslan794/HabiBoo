@@ -5,6 +5,7 @@ import com.example.habiboo.data.network.model.comment.CommentData
 import com.example.habiboo.data.network.model.comment.CommentDataInput
 import com.example.habiboo.data.network.model.comment.CommentRequest
 import com.example.habiboo.data.network.model.comment.CommentResponse
+import com.example.habiboo.data.network.model.post.PostRequest
 import com.example.habiboo.data.network.model.post.PostResponse
 import com.example.habiboo.data.network.model.room.Room
 import com.example.habiboo.data.network.model.room.TopRoomsResponse
@@ -47,6 +48,11 @@ class RoomsRepositoryImpl @Inject constructor(
 
     override suspend fun joinRoom(roomId: String, password: String?): Response<Void> {
         return remoteDataSource.joinRoom(roomId, password)
+    }
+
+    override suspend fun createPost(content: String, roomId: Int): Response<Void> {
+        val postRequest = PostRequest(content = content, room = roomId)
+        return remoteDataSource.createPost(postRequest)
     }
 
     override fun leaveRoom(roomId: String): Result<Unit> {

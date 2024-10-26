@@ -3,6 +3,7 @@ package com.example.habiboo.data.network.services
 import com.example.habiboo.data.network.model.comment.CommentDataInput
 import com.example.habiboo.data.network.model.comment.CommentRequest
 import com.example.habiboo.data.network.model.comment.CommentResponse
+import com.example.habiboo.data.network.model.post.PostRequest
 import com.example.habiboo.data.network.model.post.PostResponse
 import com.example.habiboo.data.network.model.room.CreateRoomRequest
 import com.example.habiboo.data.network.model.room.CreateRoomResponse
@@ -105,5 +106,10 @@ interface RoomsApiService {
     @POST("comments")
     suspend fun addComment(
         @Body commentRequest: CommentDataInput
+    ): Response<Void>
+
+    @POST("posts")
+    suspend fun createPost(
+        @Body postRequest: PostRequest
     ): Response<Void>
 }

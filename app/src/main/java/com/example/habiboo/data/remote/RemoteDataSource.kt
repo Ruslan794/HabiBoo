@@ -3,6 +3,7 @@ package com.example.habiboo.data.remote
 import com.example.habiboo.data.network.model.comment.CommentDataInput
 import com.example.habiboo.data.network.model.comment.CommentRequest
 import com.example.habiboo.data.network.model.comment.CommentResponse
+import com.example.habiboo.data.network.model.post.PostRequest
 import com.example.habiboo.data.network.model.post.PostResponse
 import com.example.habiboo.data.network.model.room.EnterRoomRequest
 import com.example.habiboo.data.network.model.room.TopRoomsResponse
@@ -73,5 +74,9 @@ class RemoteDataSource @Inject constructor(
 
     suspend fun addComment(comment: CommentDataInput): Response<Void> {
         return roomsApiService.addComment(comment)
+    }
+
+    suspend fun createPost(postRequest: PostRequest): Response<Void> {
+        return roomsApiService.createPost(postRequest)
     }
 }

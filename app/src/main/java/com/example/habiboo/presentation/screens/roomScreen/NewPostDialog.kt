@@ -24,6 +24,10 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,9 +50,11 @@ import com.example.habiboo.presentation.theme.mainTextStyleMin
 fun NewPostDialog(
     showDialog: Boolean = true,
     onClose: () -> Unit = {},
-    onJoinClick: (String) -> Unit = {}
+    onCreatePost: (String) -> Unit = {}
 ) {
     val fontSize = 15.sp
+    var postContent by remember { mutableStateOf("") }
+
 
     if (showDialog) {
         Dialog(onDismissRequest = onClose) {
@@ -141,8 +147,8 @@ fun NewPostDialog(
                         Spacer(modifier = Modifier.height(4.dp))
 
                         OutlinedTextField(
-                            value = "",
-                            onValueChange = { },
+                            value = postContent,
+                            onValueChange = { postContent = it },
                             label = {
                                 Text(
                                     "Share your progress...",
@@ -165,7 +171,7 @@ fun NewPostDialog(
 
                         Button(
                             onClick = {
-                                onJoinClick("password")
+                                onCreatePost(postContent)
                             },
                             colors = ButtonDefaults.buttonColors(
                                 backgroundColor = mainPurple,

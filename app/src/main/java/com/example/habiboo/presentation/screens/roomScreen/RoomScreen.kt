@@ -37,6 +37,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -68,6 +71,8 @@ fun RoomScreen(
     roomName: String,
     viewModel: RoomViewModel = hiltViewModel()
 ) {
+
+    var showNewPostDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = roomId) {
         viewModel.fetchRoomPosts(roomId)
@@ -126,7 +131,9 @@ fun RoomScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { /* Handle FAB click action */ },
+                onClick = { /* Handle FAB click action */
+                    showNewPostDialog = true
+                },
                 backgroundColor = mainPurple
             ) {
                 Icon(
@@ -226,6 +233,18 @@ fun RoomScreen(
                         Spacer(modifier = Modifier.size(15.dp))
                     }
                 }
+            }
+
+            if (showNewPostDialog) {
+                NewPostDialog(
+                    showDialog = showNewPostDialog,
+                    onClose = { showNewPostDialog = false },
+                    onCreatePost = { content ->
+                        viewModel.onPostContentChanged(content)
+                        viewModel.createPost(roomId.toInt())
+                        showNewPostDialog = false
+                    }
+                )
             }
         }
     }
