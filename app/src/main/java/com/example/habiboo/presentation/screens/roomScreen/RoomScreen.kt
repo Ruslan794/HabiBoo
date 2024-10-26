@@ -51,13 +51,10 @@ import coil.request.ImageRequest
 import com.example.habiboo.R
 import com.example.habiboo.common.EmptyListPlaceHolder
 import com.example.habiboo.data.network.model.post.PostData
-import com.example.habiboo.domain.model.Room
-import com.example.habiboo.domain.model.Task
 import com.example.habiboo.presentation.navigation.BottomNavigationBar
 import com.example.habiboo.presentation.theme.backgroundWhite
 import com.example.habiboo.presentation.theme.mainPurple
 import com.example.habiboo.presentation.theme.mainTextStyleMin
-import java.net.URLEncoder
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -158,6 +155,38 @@ fun RoomScreen(
                 )
             }
 
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 15.dp)
+            ) {
+
+                val currentUserStreak = 7
+                Text(
+                    "Your current streak: ",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    style = mainTextStyleMin,
+                    color = mainPurple,
+                )
+                Spacer(Modifier.width(12.dp))
+                Text(
+                    text = "${currentUserStreak} days!",
+                    style = mainTextStyleMin,
+                    fontSize = 16.sp,
+                )
+                Spacer(Modifier.width(4.dp))
+                Image(
+                    painter = painterResource(R.drawable.fire_icon),
+                    contentDescription = "",
+                    modifier = Modifier.size(26.dp),
+                )
+            }
+
             Spacer(modifier = Modifier.height(16.dp))
             WeekDaysRow()
 
@@ -171,10 +200,12 @@ fun RoomScreen(
                         .padding(top = 20.dp)
                 ) {
                     items(posts) { post ->
-                        PostCard(post = post,
+                        PostCard(
+                            post = post,
                             onCommentClick = { postId ->
                                 navController.navigate("comments/${postId}")
-                            },)
+                            },
+                        )
                         Spacer(modifier = Modifier.size(15.dp))
                     }
                 }
@@ -214,8 +245,10 @@ fun PostCard(post: PostData, onCommentClick: (String) -> Unit) {
                     contentScale = ContentScale.Crop
                 )
                 Spacer(Modifier.width(16.dp))
+
+                val currentStreak = 4
                 Text(
-                    post.user.username,
+                    post.user.username + " (streak:${currentStreak} days)",
                     fontWeight = FontWeight.SemiBold,
                     style = mainTextStyleMin,
                     fontSize = 16.sp
@@ -263,7 +296,7 @@ fun PostCard(post: PostData, onCommentClick: (String) -> Unit) {
                     modifier = Modifier
                         .clickable {
                             // Handle the click action here, e.g., navigate to a comments screen
-                          onCommentClick(post.id.toString())
+                            onCommentClick(post.id.toString())
                         }
                         .padding(start = 4.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -282,39 +315,39 @@ fun PostCard(post: PostData, onCommentClick: (String) -> Unit) {
                     )
                 }
                 Spacer(Modifier.weight(10f))
-                if (post.report != null) {
+                //     if (post.report != null) {
 
-                    Image(
-                        painter = painterResource(id = R.drawable.heart_break_icon),
-                        contentDescription = "",
-                        modifier = Modifier.size(25.dp),
-                        contentScale = ContentScale.Fit
-                    )
-                    Text(
-                        post.report.dislike?.toString() ?: "0",
-                        fontSize = 14.sp,
-                        modifier = Modifier.padding(start = 4.dp),
-                        style = mainTextStyleMin
-                    )
-                    Spacer(Modifier.weight(1f))
-                    Image(
-                        painter = painterResource(id = R.drawable.heart_icon),
-                        contentDescription = "",
-                        modifier = Modifier.size(25.dp),
-                        contentScale = ContentScale.Fit
-                    )
-                    Text(
-                        post.report.like?.toString() ?: "0",
-                        fontSize = 14.sp,
-                        modifier = Modifier.padding(start = 4.dp),
-                        style = mainTextStyleMin
-                    )
-                }
-
+                Image(
+                    painter = painterResource(id = R.drawable.heart_break_icon),
+                    contentDescription = "",
+                    modifier = Modifier.size(25.dp),
+                    contentScale = ContentScale.Fit
+                )
+                Text(
+                    post.report?.dislike?.toString() ?: "0",
+                    fontSize = 14.sp,
+                    modifier = Modifier.padding(start = 4.dp),
+                    style = mainTextStyleMin
+                )
+                Spacer(Modifier.weight(1f))
+                Image(
+                    painter = painterResource(id = R.drawable.heart_icon),
+                    contentDescription = "",
+                    modifier = Modifier.size(25.dp),
+                    contentScale = ContentScale.Fit
+                )
+                Text(
+                    post.report?.like?.toString() ?: "0",
+                    fontSize = 14.sp,
+                    modifier = Modifier.padding(start = 4.dp),
+                    style = mainTextStyleMin
+                )
             }
+
         }
     }
 }
+//}
 
 @Composable
 fun WeekDaysRow() {
