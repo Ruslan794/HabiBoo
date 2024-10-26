@@ -6,7 +6,7 @@ import androidx.compose.ui.graphics.Color
 
 
 
-val backgroundWhite = Color(0xFFFDFCF7)
+val backgroundWhite = Color(0xFFFFFFFF)
 val mainBlack = Color(0xFF212529)
 val mainPurple = Color(0xFF9B5DE5)
 val mainRose= Color(0xFFE22D93)
