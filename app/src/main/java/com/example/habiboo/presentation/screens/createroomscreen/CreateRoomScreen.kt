@@ -96,9 +96,9 @@ fun CreateRoomScreen(navController: NavController) {
                 },
                 modifier = Modifier.background(backgroundWhite),
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.White, // Background color
-                    titleContentColor = Color.Black, // Title color
-                    navigationIconContentColor = Color.Black // Navigation icon color
+                    containerColor = backgroundWhite,
+                    titleContentColor = Color.Black,
+                    navigationIconContentColor = Color.Black
                 )
             )
         }
@@ -106,7 +106,7 @@ fun CreateRoomScreen(navController: NavController) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
+                .background(backgroundWhite)
                 .padding(paddingValues)
                 .padding(16.dp)
         ) {

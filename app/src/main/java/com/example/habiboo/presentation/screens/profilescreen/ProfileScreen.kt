@@ -87,9 +87,9 @@ fun ProfileScreen(navController: NavController) {
                 },
                 modifier = Modifier.background(backgroundWhite),
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.White, // Background color
-                    titleContentColor = Color.Black, // Title color
-                    navigationIconContentColor = Color.Black // Navigation icon color
+                    containerColor = backgroundWhite,
+                    titleContentColor = Color.Black,
+                    navigationIconContentColor = Color.Black
                 )
             )
         }
@@ -97,7 +97,7 @@ fun ProfileScreen(navController: NavController) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
+                .background(backgroundWhite)
                 .padding(paddingValues)
                 .padding(16.dp)
         ) {
@@ -128,7 +128,7 @@ fun ProfileScreen(navController: NavController) {
             UserDataField(label = "Telephone:", data = "+491557589498129")
             UserDataField(label = "Email:", data = "peter.parker@icloud.com")
 
-            Spacer(modifier = Modifier.height(64.dp))
+            Spacer(modifier = Modifier.height(34.dp))
 
 
             Button(
@@ -142,10 +142,28 @@ fun ProfileScreen(navController: NavController) {
                 Text(
                     "EDIT",
                     style = mainTextStyleMin,
-                    fontSize = 21.sp,
+                    fontSize = 19.sp,
                     fontWeight = FontWeight.SemiBold
                 )
             }
+
+            Button(
+                onClick = { /* Handle create room */ }, colors = ButtonDefaults.buttonColors(
+                    containerColor = mainPurple
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 75.dp)
+            ) {
+                Text(
+                    "LOG OUT",
+                    style = mainTextStyleMin,
+                    fontSize = 19.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+
+
         }
 
     }
