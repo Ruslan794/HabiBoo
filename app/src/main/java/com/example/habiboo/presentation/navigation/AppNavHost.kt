@@ -15,6 +15,7 @@ import com.example.habiboo.presentation.screens.communityscreen.CommunityScreen
 import com.example.habiboo.presentation.screens.homescreen.HomeScreen
 import com.example.habiboo.presentation.screens.loginscreen.LoginScreen
 import com.example.habiboo.presentation.screens.loginscreen.SplashScreen
+import com.example.habiboo.presentation.screens.roomdetailsscreen.RoomDetailsScreen
 import java.net.URLDecoder
 
 @Composable
@@ -86,6 +87,10 @@ fun AppNavHost(
         }
         composable(NavDestination.Profile.route) {
             ProfileScreen(navController)
+        }
+
+        composable(NavDestination.RoomDetails.route) {
+            RoomDetailsScreen(navController)
         }
     }
 }
