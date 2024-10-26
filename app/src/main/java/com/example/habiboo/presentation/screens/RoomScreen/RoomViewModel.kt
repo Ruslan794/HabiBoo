@@ -19,13 +19,22 @@ class RoomViewModel @Inject constructor(
     private val _posts = MutableLiveData<List<PostData>>()
     val posts: LiveData<List<PostData>> = _posts
 
+    private val _roomName = MutableLiveData<String>()
+    val roomName: LiveData<String> = _roomName
+
+    private val _roomGoal = MutableLiveData<String>()
+    val roomGoal: LiveData<String> = _roomGoal
+
+
     fun fetchRoomPosts(roomId: String) {
         viewModelScope.launch {
             try {
                 val response = getRoomPostsUseCase.execute(roomId)
                 if (response.isSuccessful) {
                     val postsResponse = response.body()
-                    _posts.value = postsResponse?.data ?: emptyList()
+                    _roomName.value = postsResponse?.data?.name ?: "Unknown Room"
+                    _roomGoal.value = postsResponse?.data?.goal ?: "No Goal"
+                    _posts.value = postsResponse?.data?.posts ?: emptyList()
                 } else {
                     // Обработка ошибки
                 }

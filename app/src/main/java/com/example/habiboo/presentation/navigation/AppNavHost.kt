@@ -46,6 +46,21 @@ fun AppNavHost(
             }
         }
 
+        composable(
+            route = "comments/{postId}",
+            arguments = listOf(
+                navArgument("postId") { type = NavType.StringType },
+            )
+        ) { backStackEntry ->
+            val postId = backStackEntry.arguments?.getString("postId")
+
+            if (postId != null) {
+                CommentsScreen(navController = navController, postId = postId)
+            } else {
+                // Обработка ошибки, если roomId равен null
+            }
+        }
+
         composable(NavDestination.AddHabit.route) {
             AddHabitScreen(navController)
         }
@@ -62,9 +77,9 @@ fun AppNavHost(
 //        composable(NavDestination.Room.route) {
 //            RoomScreen(navController)
 //        }
-        composable(NavDestination.Comments.route) {
-            CommentsScreen(navController)
-        }
+//        composable(NavDestination.Comments.route) {
+//            CommentsScreen(navController)
+//        }
         composable(NavDestination.CreateRoom.route) {
             CreateRoomScreen(navController)
         }

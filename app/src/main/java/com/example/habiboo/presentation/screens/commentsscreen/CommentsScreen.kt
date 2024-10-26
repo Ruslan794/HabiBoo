@@ -29,6 +29,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,10 +43,12 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.habiboo.common.EmptyListPlaceHolder
+import com.example.habiboo.data.network.model.comment.CommentData
 import com.example.habiboo.presentation.navigation.BottomNavigationBar
 import com.example.habiboo.presentation.theme.backgroundWhite
 import com.example.habiboo.presentation.theme.mainPurple
@@ -52,9 +57,15 @@ import com.example.habiboo.presentation.theme.mainTextStyleMin
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CommentsScreen(navController: NavController) {
+fun CommentsScreen(navController: NavController, postId: String, viewModel: CommentsViewModel = hiltViewModel()) {
 
+    val comments by viewModel.comments.observeAsState(emptyList())
+    val commentContent by viewModel.commentContent.observeAsState("")
     val testCommentList = listOf(1, 2, 3)
+
+    LaunchedEffect(key1 = postId) {
+        viewModel.fetchComments(postId)
+    }
 
     Scaffold(
         bottomBar = {
@@ -95,25 +106,22 @@ fun CommentsScreen(navController: NavController) {
                 .background(backgroundWhite)
                 .padding(paddingValues)
         ) {
-            if (testCommentList.isEmpty()) {
+            if (comments.isEmpty()) {
                 EmptyListPlaceHolder(modifier = Modifier.weight(1f))
             } else {
-                testCommentList.let {
-
-                    LazyColumn(
-                        modifier = Modifier
-                            .weight(9f)
-                            .padding(horizontal = 20.dp)
-                            .padding(top = 20.dp)
-                    ) {
-                        items(testCommentList) { post ->
-                            // TODO() : Add as parameters object of Comment class
-                            CommentCard()
-                            Spacer(modifier = Modifier.size(15.dp))
-                        }
+                LazyColumn(
+                    modifier = Modifier
+                        .weight(9f)
+                        .padding(horizontal = 20.dp)
+                        .padding(top = 20.dp)
+                ) {
+                    items(comments) { comment ->
+                        CommentCard(comment = comment)
+                        Spacer(modifier = Modifier.size(15.dp))
                     }
                 }
             }
+
 
             Spacer(modifier = Modifier.height(16.dp))
             Box(modifier = Modifier.height(66.dp)) {
@@ -125,7 +133,7 @@ fun CommentsScreen(navController: NavController) {
 }
 
 @Composable
-fun CommentCard() {
+fun CommentCard(comment: CommentData) {
     Card(
         shape = RoundedCornerShape(16.dp),
         elevation = 4.dp,
@@ -143,20 +151,22 @@ fun CommentCard() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
+                // Аватар пользователя
+                val userImageUrl = comment.image
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data("http://40.67.243.239/uploads/coin_41b97a9b89.png")
-                        //    .data(room.imageUrl)
+                        .data(userImageUrl)
                         .crossfade(true)
                         .build(),
                     contentDescription = "Profile picture",
                     modifier = Modifier
-                        .size(40.dp),
+                        .size(40.dp)
+                        .clip(RoundedCornerShape(20.dp)),
                     contentScale = ContentScale.Crop
                 )
                 Spacer(Modifier.width(16.dp))
                 Text(
-                    "Peter Parker",
+                    comment.username,
                     fontWeight = FontWeight.SemiBold,
                     style = mainTextStyleMin,
                     color = mainPurple,
@@ -167,7 +177,7 @@ fun CommentCard() {
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                "Well, well, well, look who’s being all responsible! Nice job, kid. Just don’t forget, a strong body is important, but a sharp mind wins the game. Keep it up, and maybe someday you'll be half as cool as me.",
+                comment.text,
                 style = mainTextStyleMin,
                 fontSize = 16.sp
             )

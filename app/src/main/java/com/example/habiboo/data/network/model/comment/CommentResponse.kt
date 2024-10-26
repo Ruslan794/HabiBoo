@@ -4,5 +4,5 @@ import com.example.habiboo.data.network.model.room.Meta
 
 data class CommentResponse(
     val data: List<CommentData>,
-    val meta: Meta
+//    val meta: Meta
 )

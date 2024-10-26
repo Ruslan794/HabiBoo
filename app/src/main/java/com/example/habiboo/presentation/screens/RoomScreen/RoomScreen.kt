@@ -57,6 +57,7 @@ import com.example.habiboo.presentation.navigation.BottomNavigationBar
 import com.example.habiboo.presentation.theme.backgroundWhite
 import com.example.habiboo.presentation.theme.mainPurple
 import com.example.habiboo.presentation.theme.mainTextStyleMin
+import java.net.URLEncoder
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -72,6 +73,9 @@ fun RoomScreen(
     }
 
     val posts by viewModel.posts.observeAsState(emptyList())
+//    val roomName by viewModel.roomName.observeAsState("Loading...")
+    val roomGoal by viewModel.roomGoal.observeAsState("Loading...")
+
 
     var room = Room(
         id = "room1",
@@ -168,7 +172,7 @@ fun RoomScreen(
                 )
                 Spacer(Modifier.width(12.dp))
                 Text(
-                    text = "Strength training and endurance building",
+                    text = roomGoal,
                     style = mainTextStyleMin,
                     fontSize = 16.sp,
                 )
@@ -187,7 +191,10 @@ fun RoomScreen(
                         .padding(top = 20.dp)
                 ) {
                     items(posts) { post ->
-                        PostCard(post = post)
+                        PostCard(post = post,
+                            onCommentClick = { postId ->
+                                navController.navigate("comments/${postId}")
+                            },)
                         Spacer(modifier = Modifier.size(15.dp))
                     }
                 }
@@ -197,7 +204,7 @@ fun RoomScreen(
 }
 
 @Composable
-fun PostCard(post: PostData) {
+fun PostCard(post: PostData, onCommentClick: (String) -> Unit) {
     Card(
         shape = RoundedCornerShape(16.dp),
         elevation = 4.dp,
@@ -272,18 +279,28 @@ fun PostCard(post: PostData) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.comment_dots),
-                    contentDescription = "Background Image",
-                    modifier = Modifier.size(25.dp),
-                    contentScale = ContentScale.Fit
-                )
-                Text(
-                    post.comments.toString(),
-                    fontSize = 14.sp,
-                    modifier = Modifier.padding(start = 4.dp),
-                    style = mainTextStyleMin
-                )
+                Row(
+                    modifier = Modifier
+                        .clickable {
+                            // Handle the click action here, e.g., navigate to a comments screen
+                          onCommentClick(post.id.toString())
+                        }
+                        .padding(start = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.comment_dots),
+                        contentDescription = "Background Image",
+                        modifier = Modifier.size(25.dp),
+                        contentScale = ContentScale.Fit
+                    )
+                    Text(
+                        post.comments.toString(),
+                        fontSize = 14.sp,
+                        modifier = Modifier.padding(start = 4.dp),
+                        style = mainTextStyleMin
+                    )
+                }
                 Spacer(Modifier.weight(10f))
                 if (post.report != null) {
 

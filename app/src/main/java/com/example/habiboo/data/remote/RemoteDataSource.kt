@@ -1,5 +1,6 @@
 package com.example.habiboo.data.remote
 
+import com.example.habiboo.data.network.model.comment.CommentResponse
 import com.example.habiboo.data.network.model.post.PostResponse
 import com.example.habiboo.data.network.model.room.EnterRoomRequest
 import com.example.habiboo.data.network.model.room.TopRoomsResponse
@@ -41,11 +42,11 @@ class RemoteDataSource @Inject constructor(
         // Optionally handle remote sign-out
     }
 
-    suspend fun getTopRooms(page: Int = 1, pageSize: Int = 10): Response<TopRoomsResponse> {
+    suspend fun getTopRooms(page: Int = 1, pageSize: Int = 100): Response<TopRoomsResponse> {
         return roomsApiService.getTopRooms(page, pageSize)
     }
 
-    suspend fun getMyRooms(page: Int = 1, pageSize: Int = 10): Response<TopRoomsResponse> {
+    suspend fun getMyRooms(page: Int = 1, pageSize: Int = 100): Response<TopRoomsResponse> {
         val token = tokenRepository.getToken()
         val authHeader = "Bearer $token"
         return roomsApiService.getMyRooms(
@@ -60,7 +61,11 @@ class RemoteDataSource @Inject constructor(
         return roomsApiService.joinRoom(request)
     }
 
-    suspend fun getRoomPosts(roomId: String, page: Int = 1, pageSize: Int = 10): Response<PostResponse> {
+    suspend fun getRoomPosts(roomId: String, page: Int = 1, pageSize: Int = 100): Response<PostResponse> {
         return roomsApiService.getRoomPosts(roomId, page, pageSize)
+    }
+
+    suspend fun getPostComments(postId: String): Response<CommentResponse> {
+        return roomsApiService.getPostComments(postId)
     }
 }

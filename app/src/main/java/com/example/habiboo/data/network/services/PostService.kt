@@ -50,6 +50,6 @@ interface PostService {
     suspend fun getRoomPosts(
         @Path("roomId") roomId: String,
         @Query("page") page: Int = 1,
-        @Query("pageSize") pageSize: Int = 10
+        @Query("pageSize") pageSize: Int = 100
     ) : Response<PostResponse>
 }
