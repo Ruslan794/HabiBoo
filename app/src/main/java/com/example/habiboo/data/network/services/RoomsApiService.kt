@@ -1,5 +1,6 @@
 package com.example.habiboo.data.network.services
 
+import com.example.habiboo.data.network.model.comment.CommentDataInput
 import com.example.habiboo.data.network.model.comment.CommentRequest
 import com.example.habiboo.data.network.model.comment.CommentResponse
 import com.example.habiboo.data.network.model.post.PostResponse
@@ -15,7 +16,6 @@ import com.example.habiboo.data.network.model.room.TopRoomsResponse
 import com.example.habiboo.data.network.model.room.UpdateRoomRequest
 import com.example.habiboo.data.network.model.room.UpdateRoomResponse
 import com.example.habiboo.data.network.model.userAuth.User
-import org.w3c.dom.Comment
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
@@ -104,6 +104,6 @@ interface RoomsApiService {
 
     @POST("comments")
     suspend fun addComment(
-        @Body commentRequest: CommentRequest
-    ): Response<Comment>
+        @Body commentRequest: CommentDataInput
+    ): Response<Void>
 }
