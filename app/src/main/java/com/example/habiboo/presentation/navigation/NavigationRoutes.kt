@@ -7,7 +7,8 @@ enum class Screen {
     SPlASH,
     COMMUNITY,
     ROOM,
-    COMMENTS
+    COMMENTS,
+    CREATE_ROOM
 }
 
 sealed class NavDestination(val route: String) {
@@ -18,4 +19,5 @@ sealed class NavDestination(val route: String) {
     data object Community: NavDestination(Screen.COMMUNITY.name)
     data object Room: NavDestination(Screen.ROOM.name)
     data object Comments: NavDestination(Screen.COMMENTS.name)
+    data object CreateRoom: NavDestination(Screen.CREATE_ROOM.name)
 }

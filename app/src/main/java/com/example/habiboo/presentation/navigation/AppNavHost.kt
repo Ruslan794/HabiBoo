@@ -1,5 +1,6 @@
 package com.example.habiboo.presentation.navigation
 
+import CreateRoomScreen
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -15,7 +16,7 @@ import com.example.habiboo.presentation.screens.loginscreen.SplashScreen
 @Composable
 fun AppNavHost(
     navController: NavHostController,
-    startDestination: String = NavDestination.Splash.route,
+    startDestination: String = NavDestination.CreateRoom.route,
 ) {
     NavHost(
         navController = navController,
@@ -43,6 +44,9 @@ fun AppNavHost(
         }
         composable(NavDestination.Comments.route) {
             CommentsScreen(navController)
+        }
+        composable(NavDestination.CreateRoom.route) {
+            CreateRoomScreen(navController)
         }
     }
 }

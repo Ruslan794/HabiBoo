@@ -23,8 +23,8 @@ interface UploadApiService {
 
     @POST("/upload")
     @Multipart
-    @POST("/upload")
-    @Multipart
+ //   @POST("/upload")
+//    @Multipart
     fun uploadFileWithId(
         @Query("id") id: String,
         @Part file: MultipartBody.Part,
