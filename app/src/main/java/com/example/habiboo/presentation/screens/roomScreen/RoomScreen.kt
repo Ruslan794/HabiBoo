@@ -73,26 +73,6 @@ fun RoomScreen(
 
     val posts by viewModel.posts.observeAsState(emptyList())
 
-    var room = Room(
-        id = "room1",
-        name = "Room 1",
-        description = "Description of Room 1 with detailed info.",
-        maxMembers = 10,
-        currentMembers = 1,
-        isPrivate = false,
-        imageUrl = "http://example.com/image$.jpg",
-        tasks = listOf(
-            Task(
-                id = "task 1",
-                name = "Task 1",
-                description = "Task 1 description",
-                isCompleted = false
-            ),
-        )
-    )
-
-    val testList = listOf(1, 2, 3, 4, 5)
-
     Scaffold(
         bottomBar = {
             BottomNavigationBar(navController = navController)

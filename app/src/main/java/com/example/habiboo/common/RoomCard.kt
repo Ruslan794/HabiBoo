@@ -1,6 +1,7 @@
 package com.example.habiboo.common
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -63,7 +64,7 @@ fun RoomCard(room: Room, onRoomClick: (String) -> Unit) {
             Column(modifier = Modifier
                 .fillMaxHeight()
                 .padding(12.dp)
-                .weight(3.5f)) {
+                .weight(3f)) {
 
                 Text(
                     text = room.name,
@@ -117,21 +118,20 @@ fun RoomCard(room: Room, onRoomClick: (String) -> Unit) {
                     textDecoration = TextDecoration.Underline
                 )
             }
-            Spacer(modifier = Modifier.width(25.dp))
+            Spacer(modifier = Modifier.width(12.dp))
 
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(room.image)
-                    //    .data(room.imageUrl)
                     .crossfade(true)
                     .build(),
                 contentDescription = "Loaded Image",
                 modifier = Modifier
-                    .size(100.dp)
-                    .padding(end = 15.dp)
-                    .weight(3.35f)
+                    .height(125.dp)
+                    .padding(end = 8.dp)
+                    .weight(2f)
                     .clip(RoundedCornerShape(16.dp)),
-                contentScale = ContentScale.FillHeight
+                contentScale = ContentScale.Crop
             )
         }
     }
