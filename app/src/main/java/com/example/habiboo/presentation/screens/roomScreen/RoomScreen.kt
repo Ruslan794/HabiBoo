@@ -300,7 +300,7 @@ fun PostCard(post: PostData, onCommentClick: (String) -> Unit) {
 
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(post.media.firstOrNull() ?: R.drawable.login_screen_image)
+                    .data(post.media.firstOrNull() ?: R.drawable.no_image)
                     //    .data(room.imageUrl)
                     .crossfade(true)
                     .build(),
