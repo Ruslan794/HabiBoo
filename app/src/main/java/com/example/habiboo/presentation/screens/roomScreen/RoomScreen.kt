@@ -72,6 +72,7 @@ fun RoomScreen(
     val posts by viewModel.posts.observeAsState(emptyList())
 //    val roomName by viewModel.roomName.observeAsState("Loading...")
     val roomGoal by viewModel.roomGoal.observeAsState("Loading...")
+    val currentUserStreak by viewModel.currentUserStreak.observeAsState("Loading...")
 
 
     Scaffold(
@@ -165,7 +166,6 @@ fun RoomScreen(
                     .padding(horizontal = 15.dp)
             ) {
 
-                val currentUserStreak = 7
                 Text(
                     "Your current streak: ",
                     fontSize = 16.sp,
@@ -175,7 +175,7 @@ fun RoomScreen(
                 )
                 Spacer(Modifier.width(12.dp))
                 Text(
-                    text = "${currentUserStreak} days!",
+                    text = "$currentUserStreak days!",
                     style = mainTextStyleMin,
                     fontSize = 16.sp,
                 )
@@ -246,9 +246,8 @@ fun PostCard(post: PostData, onCommentClick: (String) -> Unit) {
                 )
                 Spacer(Modifier.width(16.dp))
 
-                val currentStreak = 4
                 Text(
-                    post.user.username + " (streak:${currentStreak} days)",
+                    post.user.username + " (streak:${post.user.streakCount} days)",
                     fontWeight = FontWeight.SemiBold,
                     style = mainTextStyleMin,
                     fontSize = 16.sp

@@ -24,6 +24,8 @@ class RoomViewModel @Inject constructor(
     private val _roomGoal = MutableLiveData<String>()
     val roomGoal: LiveData<String> = _roomGoal
 
+    private val _currentUserStreak = MutableLiveData<Int>()
+    val currentUserStreak: LiveData<Int> = _currentUserStreak
 
     fun fetchRoomPosts(roomId: String) {
         viewModelScope.launch {
@@ -34,6 +36,8 @@ class RoomViewModel @Inject constructor(
                     _roomName.value = postsResponse?.data?.name ?: "Unknown Room"
                     _roomGoal.value = postsResponse?.data?.goal ?: "No Goal"
                     _posts.value = postsResponse?.data?.posts ?: emptyList()
+
+                    _currentUserStreak.value = postsResponse?.data?.current_user_streak ?: 0
                 } else {
                     // Обработка ошибки
                 }
