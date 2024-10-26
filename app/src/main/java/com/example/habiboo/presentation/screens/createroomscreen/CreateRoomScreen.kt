@@ -184,7 +184,7 @@ fun CreateRoomScreen(navController: NavController) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text("Period (days):", style = mainTextStyleMin, fontSize = 16.sp)
-                HorizontalNumberPicker(min = 1, max = 10, initial = 5)
+                HorizontalNumberPicker(min = 1, max = 10, initial = 1)
             }
 
             Spacer(modifier = Modifier.height(8.dp))

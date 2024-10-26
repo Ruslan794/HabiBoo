@@ -26,10 +26,9 @@ class LoginScreenViewModel @Inject constructor(
     // Add a constant for log tag
     private val TAG = "LoginViewModel"
 
-
-    private val _email = mutableStateOf("")
+    private val _email = mutableStateOf("aigerim.toktobanova@gmail.com")
     val email: State<String> = _email
-    private val _password = mutableStateOf("")
+    private val _password = mutableStateOf("privet1234")
     val password: State<String> = _password
 
     // LiveData для управления состоянием загрузки

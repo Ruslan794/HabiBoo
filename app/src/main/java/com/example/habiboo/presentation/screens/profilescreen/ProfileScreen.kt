@@ -25,13 +25,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -54,7 +49,6 @@ import com.example.habiboo.presentation.theme.mainTextStyleMin
 @Composable
 fun ProfileScreen(navController: NavController) {
 
-    var username by remember { mutableStateOf("*username*") }
 
     Scaffold(
         bottomBar = {
@@ -65,7 +59,7 @@ fun ProfileScreen(navController: NavController) {
             TopAppBar(
                 title = {
                     Text(
-                        "Hallo, ${username}!",
+                        "Hallo, Aigerim!",
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(end = 20.dp),
@@ -124,9 +118,9 @@ fun ProfileScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            UserDataField(label = "Username:", data = "Peter Parker")
-            UserDataField(label = "Telephone:", data = "+491557589498129")
-            UserDataField(label = "Email:", data = "peter.parker@icloud.com")
+            UserDataField(label = "Username:", data = "aigerim")
+            UserDataField(label = "Telephone:", data = "+49166662234")
+            UserDataField(label = "Email:", data = "aigerim.toktobanova@gmail.com")
 
             Spacer(modifier = Modifier.height(34.dp))
 
@@ -186,7 +180,11 @@ fun UserDataField(label: String, data: String) {
             value = data,
             shape = RoundedCornerShape(25.dp),
             onValueChange = { },
-            textStyle = TextStyle(fontSize = 18.sp, fontFamily = Poppins, fontWeight = FontWeight.Medium,),
+            textStyle = TextStyle(
+                fontSize = 18.sp,
+                fontFamily = Poppins,
+                fontWeight = FontWeight.Medium,
+            ),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 backgroundColor = Color.Transparent,
                 cursorColor = Color.White,
@@ -198,7 +196,8 @@ fun UserDataField(label: String, data: String) {
                 // Handle send action, like posting the comment
             }),
             singleLine = true,
-            modifier = Modifier.fillMaxWidth())
+            modifier = Modifier.fillMaxWidth()
+        )
     }
     Spacer(modifier = Modifier.height(16.dp))
 }

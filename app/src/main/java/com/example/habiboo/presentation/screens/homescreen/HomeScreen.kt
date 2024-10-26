@@ -44,8 +44,6 @@ fun HomeScreen(navController: NavHostController, vm: HomeScreenViewModel = hiltV
     val searchQuery by vm.searchQuery.observeAsState("")
     val filteredRooms by vm.filteredRooms.observeAsState(emptyList())
 
-  //  RoomJoinDialog(true) {  }
-
     Scaffold(
         topBar = {
             TopAppBar(
