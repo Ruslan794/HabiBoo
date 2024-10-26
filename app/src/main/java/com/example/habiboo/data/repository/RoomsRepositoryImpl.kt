@@ -1,6 +1,9 @@
 package com.example.habiboo.data.repository
 
 import android.util.Log
+import com.example.habiboo.data.network.model.comment.CommentData
+import com.example.habiboo.data.network.model.comment.CommentDataInput
+import com.example.habiboo.data.network.model.comment.CommentRequest
 import com.example.habiboo.data.network.model.comment.CommentResponse
 import com.example.habiboo.data.network.model.post.PostResponse
 import com.example.habiboo.data.network.model.room.Room
@@ -32,6 +35,14 @@ class RoomsRepositoryImpl @Inject constructor(
 
     override suspend fun getPostComments(postId: String): Response<CommentResponse> {
         return remoteDataSource.getPostComments(postId)
+    }
+
+    override suspend fun addComment(postId: String, content: String): Response<Void> {
+        val request = CommentDataInput(
+                text = content,
+                postId = postId
+            )
+        return remoteDataSource.addComment(request)
     }
 
     override suspend fun joinRoom(roomId: String, password: String?): Response<Void> {

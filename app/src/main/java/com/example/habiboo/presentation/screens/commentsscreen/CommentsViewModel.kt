@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.habiboo.data.network.model.comment.CommentData
+import com.example.habiboo.domain.use_case.add_comment.AddCommentUseCase
 import com.example.habiboo.domain.use_case.get_post_comments.GetCommentsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -14,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CommentsViewModel @Inject constructor(
     private val getCommentsUseCase: GetCommentsUseCase,
-//    private val addCommentUseCase: AddCommentUseCase
+    private val addCommentUseCase: AddCommentUseCase
 ) : ViewModel() {
 
     private val _comments = MutableLiveData<List<CommentData>>()
@@ -42,22 +43,22 @@ class CommentsViewModel @Inject constructor(
         _commentContent.value = content
     }
 
-//    fun addComment(postId: String) {
-//        val content = _commentContent.value ?: return
-//        viewModelScope.launch {
-//            try {
-//                val response = addCommentUseCase.execute(postId, content)
-//                if (response.isSuccessful) {
-//                    // Обновляем список комментариев
-//                    fetchComments(postId)
-//                    // Очищаем поле ввода
-//                    _commentContent.value = ""
-//                } else {
-//                    // Обработка ошибки
-//                }
-//            } catch (e: Exception) {
-//                // Обработка исключения
-//            }
-//        }
-//    }
+    fun addComment(postId: String) {
+        val content = _commentContent.value ?: return
+        viewModelScope.launch {
+            try {
+                val response = addCommentUseCase.execute(postId, content)
+                if (response.isSuccessful) {
+                    // Обновляем список комментариев
+                    fetchComments(postId)
+                    // Очищаем поле ввода
+                    _commentContent.value = ""
+                } else {
+                    // Обработка ошибки
+                }
+            } catch (e: Exception) {
+                // Обработка исключения
+            }
+        }
+    }
 }

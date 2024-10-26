@@ -56,7 +56,11 @@ import com.example.habiboo.presentation.theme.mainTextStyleMin
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CommentsScreen(navController: NavController, postId: String, viewModel: CommentsViewModel = hiltViewModel()) {
+fun CommentsScreen(
+    navController: NavController,
+    postId: String,
+    viewModel: CommentsViewModel = hiltViewModel()
+) {
 
     val comments by viewModel.comments.observeAsState(emptyList())
     val commentContent by viewModel.commentContent.observeAsState("")
@@ -124,7 +128,13 @@ fun CommentsScreen(navController: NavController, postId: String, viewModel: Comm
 
             Spacer(modifier = Modifier.height(16.dp))
             Box(modifier = Modifier.height(66.dp)) {
-                CommentInputField()
+                CommentInputField(
+                    content = commentContent,
+                    onContentChanged = { viewModel.onCommentContentChanged(it) },
+                    onSendClick = {
+                        viewModel.addComment(postId)
+                    }
+                )
             }
 
         }
@@ -189,7 +199,11 @@ fun CommentCard(comment: CommentData) {
 }
 
 @Composable
-fun CommentInputField() {
+fun CommentInputField(
+    content: String,
+    onContentChanged: (String) -> Unit,
+    onSendClick: () -> Unit
+) {
 
     Row(
         modifier = Modifier
@@ -200,8 +214,8 @@ fun CommentInputField() {
         verticalAlignment = Alignment.CenterVertically
     ) {
         OutlinedTextField(
-            value = "",
-            onValueChange = { },
+            value = content,
+            onValueChange = onContentChanged,
             placeholder = {
                 Text(
                     "Write a comment...",
@@ -218,16 +232,14 @@ fun CommentInputField() {
             ),
             keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Send),
             keyboardActions = KeyboardActions(onSend = {
-                // Handle send action, like posting the comment
+                onSendClick()
             }),
             singleLine = true,
             modifier = Modifier
         )
 
         IconButton(
-            onClick = {
-                // Handle the post action
-            },
+            onClick = onSendClick,
             modifier = Modifier.size(36.dp),
         ) {
             Icon(Icons.AutoMirrored.Filled.Send, contentDescription = "Post", tint = Color.White)
