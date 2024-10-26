@@ -8,7 +8,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.habiboo.presentation.screens.commentsscreen.CommentsScreen
 import androidx.navigation.navArgument
-import com.example.habiboo.presentation.screens.RoomScreen.RoomScreen
+import com.example.habiboo.presentation.screens.profilescreen.ProfileScreen
+import com.example.habiboo.presentation.screens.roomScreen.RoomScreen
 import com.example.habiboo.presentation.screens.addhabitscreen.AddHabitScreen
 import com.example.habiboo.presentation.screens.communityscreen.CommunityScreen
 import com.example.habiboo.presentation.screens.homescreen.HomeScreen
@@ -19,7 +20,7 @@ import java.net.URLDecoder
 @Composable
 fun AppNavHost(
     navController: NavHostController,
-    startDestination: String = NavDestination.Splash.route,
+    startDestination: String = NavDestination.Profile.route,
 ) {
     NavHost(
         navController = navController,
@@ -67,6 +68,9 @@ fun AppNavHost(
         }
         composable(NavDestination.CreateRoom.route) {
             CreateRoomScreen(navController)
+        }
+        composable(NavDestination.Profile.route) {
+            ProfileScreen(navController)
         }
     }
 }

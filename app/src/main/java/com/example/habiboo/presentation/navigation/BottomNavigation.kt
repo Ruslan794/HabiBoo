@@ -33,7 +33,7 @@ val items = listOf(
     NavigationItem(NavDestination.Home.route, R.drawable.home_icon, "Home"),
     NavigationItem(NavDestination.Community.route, R.drawable.comunity_icon, "Explore"),
     NavigationItem(NavDestination.CreateRoom.route, R.drawable.new_room_icon, "New room"),
-    NavigationItem("", R.drawable.profile_icon, "Profile")
+    NavigationItem(NavDestination.Profile.route, R.drawable.profile_icon, "Profile")
 )
 
 @Composable
@@ -42,8 +42,8 @@ fun BottomNavigationBar(navController: NavController) {
         backgroundColor = Color.White,
         contentColor = Color.White,
         modifier = Modifier
-            .navigationBarsPadding() // Добавляем этот модификатор
-            .height(56.dp) // Стандартная высота для BottomNavigationBar
+            .navigationBarsPadding()
+            .height(56.dp)
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route

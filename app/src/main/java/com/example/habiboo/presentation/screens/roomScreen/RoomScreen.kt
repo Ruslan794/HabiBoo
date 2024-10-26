@@ -1,4 +1,4 @@
-package com.example.habiboo.presentation.screens.RoomScreen
+package com.example.habiboo.presentation.screens.roomScreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
