@@ -23,6 +23,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -84,7 +85,12 @@ fun ProfileScreen(navController: NavController) {
                         )
                     }
                 },
-                modifier = Modifier.background(backgroundWhite)
+                modifier = Modifier.background(backgroundWhite),
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.White, // Background color
+                    titleContentColor = Color.Black, // Title color
+                    navigationIconContentColor = Color.Black // Navigation icon color
+                )
             )
         }
     ) { paddingValues ->
